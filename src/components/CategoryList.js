@@ -28,12 +28,12 @@ export default class CategoryList extends React.Component {
             <Category />
           </ul>
           <div className='card-body'>
-            <a href='#' className='card-link'>
+            {/* <a href='#' className='card-link'>
               Card link
             </a>
             <a href='#' className='card-link'>
               Another link
-            </a>
+            </a> */}
           </div>
         </div>
       </div>
