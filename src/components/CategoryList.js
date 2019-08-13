@@ -1,42 +1,45 @@
 import React from 'react'
 import Category from './Category'
+import { connect } from 'react-redux'
 
-export default class CategoryList extends React.Component {
+import { FaCrown } from 'react-icons/fa'
+
+class CategoryList extends React.Component {
   render () {
+    const { categories } = this.props
+
     return (
       <div className='card-list-container'>
         <div className='card'>
           <div className='card-body'>
-            <h5 className='card-title'>Card title</h5>
-            <p className='card-text'>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
+            <h5 className='card-title'>
+              <FaCrown /> Top Categories
+            </h5>
           </div>
           <ul className='list-group list-group-flush'>
-            <Category />
-            <Category />
-            <Category />
-            <Category />
-
-            <Category />
-
-            <Category />
-
-            <Category />
-
-            <Category />
+            {Object.keys(categories).map(index =>
+              <li key={index} className='list-group-item'>
+                <Category categoryIndex={index} />
+              </li>
+            )}
           </ul>
-          <div className='card-body'>
+          {/* <div className='card-body'> */}
             {/* <a href='#' className='card-link'>
               Card link
             </a>
             <a href='#' className='card-link'>
               Another link
             </a> */}
-          </div>
+          {/* </div> */}
         </div>
       </div>
     )
   }
 }
+
+function mapStateToProps (state) {
+  const { categories } = state
+  return { categories }
+}
+
+export default connect(mapStateToProps)(CategoryList)

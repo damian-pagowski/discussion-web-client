@@ -11,6 +11,55 @@ body {
   /* content: "\00a0"; */
 }
 
+.my-badge{
+    background-color: rgb(97, 137, 192);
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-right: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: text-bottom;
+    margin-left: 0;
+    padding: 0 4px;
+}
+
+.category-name, .author-name, .date-posted{
+  font-size: 18px;
+  font-weight: 700;
+  color: black;
+  display: inline-block;
+  margin-right: 5px;
+  line-height: 20px;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-transform: capitalize;
+}
+
+
+.icon{
+  display: inline-block;
+  line-height: 16px;
+  margin-right: 3px;
+  margin-left: 3px;
+  /* background-color: #4a9595; */
+}
+
+.author-name, .date-posted {
+  margin-left: 5px;
+}
+
+.date-posted{
+  color:  #6a737c;
+  font-weight: 400;
+  font-size: 14px;
+
+
+}
+
 .custom-card-footer{
   /* background-color: rgba(0,0,0,.03); */
   padding: 0;

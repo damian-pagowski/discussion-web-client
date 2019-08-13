@@ -1,36 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { FaThumbsDown } from 'react-icons/fa'
+import { FaThumbsUp } from 'react-icons/fa'
+import { FaEdit } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 
 class Post extends React.Component {
-
-
   render () {
-
-    console.log("?? PROPS IN POST ?? " , JSON.stringify(this.props))
-
-    const {passedPostId, posts} = this.props;
-
-    // const post = {
-    //   id: '8xf0y6ziyjabvozdd253nd',
-    //   timestamp: 1467166872634,
-    //   title: 'Udacity is the best place to learn React',
-    //   body: 'Everyone says so after all.',
-    //   author: 'thingtwo',
-    //   category: 'react',
-    //   voteScore: 6,
-    //   deleted: false,
-    //   commentCount: 2
-    // }
-    const post = posts[passedPostId];
+    const { passedPostId, posts } = this.props
+    const post = posts[passedPostId]
+    const dateFormatted = new Date(post.timestamp).toUTCString()
     return (
       <div className='post-container'>
         <div className='card'>
           <div className='card-header'>
-            <span className="badge badge-info add-space">{post.category}</span> 
+            <span className='category-name'>{post.category}</span>
             Posted by
-            <span>{post.author}</span>
+            <span className='author-name'>{post.author}</span>
             on
-            <span>{post.timestamp}</span>
+            <span className='date-posted'>{dateFormatted}</span>
           </div>
           <div className='card-body'>
             <h5 className='card-title'>
@@ -40,8 +28,24 @@ class Post extends React.Component {
               {post.body}
             </p>
             <div className='custom-card-footer text-muted'>
-              <span className="badge badge-info add-space">{post.commentCount} Comments</span>
-              <span className="badge badge-info add-space">{post.voteScore} Scores</span>
+              <span className='my-badge'>
+                {post.commentCount} Comments
+              </span>
+              <span className='icon'>
+                <FaEdit />
+              </span>
+              <span className='icon'>
+                <FaTrash />
+              </span>
+              <span className='my-badge'>
+                {post.voteScore} Scores
+              </span>
+              <span className='icon'>
+                <FaThumbsDown />
+              </span>
+              <span className='icon'>
+                <FaThumbsUp />
+              </span>
             </div>
           </div>
         </div>
