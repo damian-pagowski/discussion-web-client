@@ -105,31 +105,31 @@ class CreatePost extends React.Component {
               </div>
               {/* end */}
             </div>
-            <div className="card-body">
-              <textarea
-                class="custom-text-area form-control "
-                id="exampleFormControlTextarea1"
-                placeholder="Post..."
-                value={this.state.body}
-                name="body"
-                onChange={this.handleInputChange}
-              />
-            </div>
-            <div className="custom-card-footer">
-              <div className="post-button">
-                <button
-                  type="submit"
-                  class="btn btn-info "
-                  disabled={
-                    this.state.title === "" ||
-                    this.state.body === "" ||
-                    this.state.category === ""
-                  }
-                >
-                  POST
-                </button>
+              <div className="card-body">
+                <textarea
+                  class="custom-text-area form-control "
+                  id="exampleFormControlTextarea1"
+                  placeholder="Post..."
+                  value={this.state.body}
+                  name="body"
+                  onChange={this.handleInputChange}
+                />
               </div>
-            </div>
+              <div className="custom-card-footer">
+                <div className="post-button">
+                  <button
+                    type="submit"
+                    class="btn btn-info "
+                    disabled={
+                      this.state.title === "" ||
+                      this.state.body === "" ||
+                      this.state.category === ""
+                    }
+                  >
+                    POST
+                  </button>
+                </div>
+              </div>
           </div>
         </div>
       </form>

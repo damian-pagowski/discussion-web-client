@@ -44,6 +44,8 @@ body {
 .icon {
   display: inline-block;
   line-height: 16px;
+  padding-bottom: 4px;
+  padding-top: 0px;
   margin-right: 3px;
   margin-left: 3px;
   /* background-color: #4a9595; */
@@ -52,6 +54,10 @@ body {
 .author-name,
 .date-posted {
   margin-left: 5px;
+}
+
+.author-name-small {
+  font-weight: 700;
 }
 
 .date-posted {
@@ -137,9 +143,21 @@ body {
   margin: 0 !important;
 }
 
-.post-button{
-   float: right;
+.post-button {
+  float: right;
   padding-right: 20px;
   padding-bottom: 20px;
 }
 
+.pull-to-right {
+  float: right;
+}
+.post-button-no-padding {
+  float: right;
+  padding: 0;
+  margin: 0;
+}
+
+.padding-reduced-card {
+  padding: 5 !important;
+}
