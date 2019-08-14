@@ -23,14 +23,6 @@ class CategoryList extends React.Component {
               </li>
             )}
           </ul>
-          {/* <div className='card-body'> */}
-            {/* <a href='#' className='card-link'>
-              Card link
-            </a>
-            <a href='#' className='card-link'>
-              Another link
-            </a> */}
-          {/* </div> */}
         </div>
       </div>
     )

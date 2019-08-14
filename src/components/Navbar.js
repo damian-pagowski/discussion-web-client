@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaPen } from 'react-icons/fa'
 
 export default class Navbar extends React.Component {
   render () {
@@ -7,30 +8,17 @@ export default class Navbar extends React.Component {
         <a className='navbar-brand' href='#'>
           Readable
         </a>
-        <button
-          className='navbar-toggler'
-          type='button'
-          data-toggle='collapse'
-          data-target='#navbarNavAltMarkup'
-          aria-controls='navbarNavAltMarkup'
-          aria-expanded='false'
-          aria-label='Toggle navigation'
-        >
-          <span className='navbar-toggler-icon' />
-        </button>
-        <div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
-          <div className='navbar-nav'>
-            <a className='nav-item nav-link active' href='#'>
-              Home <span className='sr-only'>(current)</span>
+        <ul class='navbar-nav px-2 mr-auto '>
+          <li class='nav-item '>
+            <a
+              className='nav-item nav-link btn btn-outline-secondary my-2 my-sm-0'
+              href='#'
+            >
+              <FaPen/>
+              Create Post
             </a>
-            <a className='nav-item nav-link' href='#'>
-              Features
-            </a>
-            <a className='nav-item nav-link' href='#'>
-              Pricing
-            </a>
-          </div>
-        </div>
+          </li>
+        </ul>
       </nav>
     )
   }
