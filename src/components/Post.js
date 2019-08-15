@@ -1,73 +1,84 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { FaThumbsDown } from 'react-icons/fa'
-import { FaThumbsUp } from 'react-icons/fa'
-import { FaEdit } from 'react-icons/fa'
-import { FaTrash } from 'react-icons/fa'
+import React from "react";
+import { connect } from "react-redux";
+import { FaThumbsDown } from "react-icons/fa";
+import { FaThumbsUp } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
+import { upVotePost, downVotePost } from "../actions/posts";
 
 class Post extends React.Component {
-  render () {
-    const { passedPostId, posts } = this.props
-    const post = posts[passedPostId] || {
-      body:
-        ' Quisque suscipit aliquam ipsum a faucibus. Morbi egestas in lorem sed laoreet. Aliquam lobortis volutpat ex id rutrum. Proin commodo a felis at porta.',
-      id: 'aaa1234',
-      timestamp: '1467166872634',
-      author: 'Damian',
-      title: 'Title of my post',
-      category: 'REACT'
-    }
-    console.log('====================================')
-    console.log(JSON.stringify(posts))
-    console.log('====================================')
-    const dateFormatted = new Date(post.timestamp).toUTCString()
+  handleUpVote = () => {
+    this.props.dispatch(upVotePost(this.props.post.id));
+  };
 
+  handleDownVote = () => {
+    this.props.dispatch(downVotePost(this.props.post.id));
+  };
+
+  handleEdit = () => {
+    console.log("EDIT");
+  };
+
+  handleDelete = () => {
+    console.log("DELETE");
+  };
+
+  render() {
+    const { passedPostId, posts } = this.props;
+    const post = this.props.post;
+    console.log("====================================");
+    console.log(JSON.stringify(posts));
+    console.log("====================================");
+    const dateFormatted = new Date(post.timestamp).toUTCString();
     return (
-      <div className='post-container'>
-        <div className='card'>
-          <div className='card-header'>
-            <span className='category-name'>{post.category}</span>
+      <div className="post-container">
+        <div className="card">
+          <div className="card-header">
+            <span className="category-name">{post.category}</span>
             Posted by
-            <span className='author-name'>{post.author}</span>
+            <span className="author-name">{post.author}</span>
             on
-            <span className='date-posted'>{dateFormatted}</span>
+            <span className="date-posted">{dateFormatted}</span>
           </div>
-          <div className='card-body'>
-            <h5 className='card-title'>
+          <div className="card-body">
+            <h5 className="card-title">
               {post.title}
             </h5>
-            <p className='card-text'>
+            <p className="card-text">
               {post.body}
             </p>
-            <div className='custom-card-footer text-muted'>
-              <span className='my-badge'>
+            <div className="custom-card-footer text-muted">
+              <span className="my-badge">
                 {post.commentCount} Comments
               </span>
-              <span className='icon'>
+              <span className="icon" onClick={this.handleEdit}>
                 <FaEdit />
               </span>
-              <span className='icon'>
+              <span className="icon" onClick={this.handleDelete}>
                 <FaTrash />
               </span>
-              <span className='my-badge'>
+              <span className="my-badge">
                 {post.voteScore} Scores
               </span>
-              <span className='icon'>
+              <span className="icon" onClick={this.handleDownVote}>
                 <FaThumbsDown />
               </span>
-              <span className='icon'>
+              <span className="icon" onClick={this.handleUpVote}>
                 <FaThumbsUp />
               </span>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
-function mapStateToProps (state) {
-  const { posts } = state
-  return { posts }
+function mapStateToProps(state, props) {
+  const { posts } = state;
+  const { passedPostId } = props;
+  const post = posts[passedPostId];
+  const postID = post.id;
+  return { posts, post, postID };
 }
 
-export default connect(mapStateToProps)(Post)
+export default connect(mapStateToProps)(Post);

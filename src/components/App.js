@@ -20,8 +20,6 @@ class App extends React.Component {
           <div className='row'>
             <div className='col-sm-9'>
               <PostList />
-              {/* <CreatePost/> */}
-              {/* <PostDetails /> */}
             </div>
             <div className='col-sm-3'>
               <CategoryList />
