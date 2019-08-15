@@ -27,8 +27,8 @@ class PostDetails extends React.Component {
 
     return (
       <div className='d-flex flex-column'>
-        {/* <Post passedPostId={0} /> */}
-        {/* end of card one */}
+        <Post passedPostId={0} />
+
         <CreateComment/>
         <Comment/>
         

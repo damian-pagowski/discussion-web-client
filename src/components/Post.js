@@ -8,10 +8,18 @@ import { FaTrash } from 'react-icons/fa'
 class Post extends React.Component {
   render () {
     const { passedPostId, posts } = this.props
-    const post = posts[passedPostId] 
-    console.log('====================================');
-    console.log( JSON.stringify(posts));
-    console.log('====================================');
+    const post = posts[passedPostId] || {
+      body:
+        ' Quisque suscipit aliquam ipsum a faucibus. Morbi egestas in lorem sed laoreet. Aliquam lobortis volutpat ex id rutrum. Proin commodo a felis at porta.',
+      id: 'aaa1234',
+      timestamp: '1467166872634',
+      author: 'Damian',
+      title: 'Title of my post',
+      category: 'REACT'
+    }
+    console.log('====================================')
+    console.log(JSON.stringify(posts))
+    console.log('====================================')
     const dateFormatted = new Date(post.timestamp).toUTCString()
 
     return (
