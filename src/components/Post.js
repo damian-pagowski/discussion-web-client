@@ -4,15 +4,15 @@ import { FaThumbsDown } from "react-icons/fa";
 import { FaThumbsUp } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-import { upVotePost, downVotePost } from "../actions/posts";
+import { handleDownVotePosts, handleUpVotePosts } from "../actions/posts";
 
 class Post extends React.Component {
   handleUpVote = () => {
-    this.props.dispatch(upVotePost(this.props.post.id));
+    this.props.dispatch(handleUpVotePosts(this.props.post.id));
   };
 
   handleDownVote = () => {
-    this.props.dispatch(downVotePost(this.props.post.id));
+    this.props.dispatch(handleDownVotePosts(this.props.post.id));
   };
 
   handleEdit = () => {
@@ -29,7 +29,6 @@ class Post extends React.Component {
     console.log("====================================");
     console.log(JSON.stringify(posts));
     console.log("====================================");
-    const dateFormatted = new Date(post.timestamp).toUTCString();
     return (
       <div className="post-container">
         <div className="card">
@@ -38,7 +37,9 @@ class Post extends React.Component {
             Posted by
             <span className="author-name">{post.author}</span>
             on
-            <span className="date-posted">{dateFormatted}</span>
+            <span className="date-posted">
+              {this.props.formatDate(post.timestamp)}
+            </span>
           </div>
           <div className="card-body">
             <h5 className="card-title">
@@ -78,7 +79,8 @@ function mapStateToProps(state, props) {
   const { passedPostId } = props;
   const post = posts[passedPostId];
   const postID = post.id;
-  return { posts, post, postID };
+  const formatDate = date => new Date(date).toUTCString();
+  return { posts, post, postID, formatDate };
 }
 
 export default connect(mapStateToProps)(Post);
