@@ -1,5 +1,6 @@
 import { receiveCategories } from './categories'
-import { receivePosts } from './posts'
+import { handleReceivePosts } from './posts'
+
 
 const categories = [
   {
@@ -44,6 +45,8 @@ const posts = [
 export function handleInitialData () {
   return dispatch => {
     dispatch(receiveCategories(categories))
-    dispatch(receivePosts(posts))
+    dispatch(handleReceivePosts())
+    
+    
   }
 }

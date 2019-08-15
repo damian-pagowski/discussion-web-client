@@ -9,13 +9,12 @@ export default class Navbar extends React.Component {
           Readable
         </a>
         <ul class='navbar-nav px-2 mr-auto '>
-          <li class='nav-item '>
+          <li class='nav-item'>
             <a
               className='nav-item nav-link btn btn-outline-secondary my-2 my-sm-0'
               href='#'
             >
-              <FaPen/>
-              Create Post
+              <span className='custom-nav-item'>Create Post</span>
             </a>
           </li>
         </ul>

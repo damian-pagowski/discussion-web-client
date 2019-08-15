@@ -161,3 +161,9 @@ body {
 .padding-reduced-card {
   padding: 5 !important;
 }
+
+.custom-nav-item {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+}
