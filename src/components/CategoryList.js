@@ -31,6 +31,10 @@ class CategoryList extends React.Component {
 
 function mapStateToProps (state) {
   const { categories } = state
+  console.log('====================================')
+  console.log('CATEGORIES')
+  console.log(JSON.stringify(categories))
+  console.log('====================================')
   return { categories }
 }
 

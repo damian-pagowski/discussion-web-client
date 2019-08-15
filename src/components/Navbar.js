@@ -8,8 +8,8 @@ export default class Navbar extends React.Component {
         <a className='navbar-brand' href='#'>
           Readable
         </a>
-        <ul class='navbar-nav px-2 mr-auto '>
-          <li class='nav-item'>
+        <ul className='navbar-nav px-2 mr-auto '>
+          <li className='nav-item'>
             <a
               className='nav-item nav-link btn btn-outline-secondary my-2 my-sm-0'
               href='#'

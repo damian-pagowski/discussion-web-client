@@ -1,9 +1,7 @@
 import { showLoading, hideLoading } from 'react-redux-loading'
-
+import { baseUrl } from './shared'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const CREATE_POST = 'CREATE_POST'
-
-const baseUrl = 'http://localhost:3001'
 
 export function handleReceivePosts () {
   return (dispatch, getState) => {
