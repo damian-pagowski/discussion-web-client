@@ -7,7 +7,7 @@ import { FaTrash } from "react-icons/fa";
 import {
   handleDownVotePosts,
   handleUpVotePosts,
-  deletePost,
+  handleDeletePost,
 } from "../actions/posts";
 
 class Post extends React.Component {
@@ -24,7 +24,7 @@ class Post extends React.Component {
   };
 
   handleDelete = () => {
-    this.props.dispatch(deletePost(this.props.post.id));
+    this.props.dispatch(handleDeletePost(this.props.post.id));
   };
 
   render() {

@@ -44,10 +44,24 @@ export function updatePost (post) {
   }
 }
 
-export function deletePost (postID) {
+function deletePost (postID) {
   return {
     type: DELETE_POST,
     postID
+  }
+}
+
+export function handleDeletePost (postID) {
+  return (dispatch, getState) => {
+    dispatch(showLoading())
+    const requestConfig = {
+      method: 'DELETE',
+      headers: defaultHeader
+    }
+    return fetch(`${baseUrl}/posts/${postID}`, requestConfig)
+      .then(res => console.log('API RESPONSE >> ', res.json()))
+      .then(() => dispatch(deletePost(postID)))
+      .then(() => dispatch(hideLoading()))
   }
 }
 
