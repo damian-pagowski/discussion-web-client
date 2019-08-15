@@ -2,7 +2,8 @@ import {
   RECEIVE_POSTS,
   CREATE_POST,
   UP_VOTE_POST,
-  DOWN_VOTE_POST
+  DOWN_VOTE_POST,
+  DELETE_POST
 } from '../actions/posts'
 
 export default function posts (state = {}, action) {
@@ -41,11 +42,22 @@ export default function posts (state = {}, action) {
 
       Object.keys(copyOfStateDownVote).forEach(function (key) {
         if (action.postID === copyOfStateDownVote[key].id) {
-          copyOfStateDownVote[key].voteScore =
-            --copyOfStateDownVote[key].voteScore
+          copyOfStateDownVote[key].voteScore = --copyOfStateDownVote[key]
+            .voteScore
         }
       })
       return copyOfStateDownVote
+
+    case DELETE_POST:
+      const copyOfStateDelete = {
+        ...state
+      }
+      Object.keys(copyOfStateDelete).forEach(function (key) {
+        if (action.postID == copyOfStateDelete[key].id) {
+          delete copyOfStateDelete[key]
+        }
+      })
+      return copyOfStateDelete
 
     default:
       return state

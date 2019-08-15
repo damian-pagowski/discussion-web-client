@@ -44,6 +44,13 @@ export function updatePost (post) {
   }
 }
 
+export function deletePost (postID) {
+  return {
+    type: DELETE_POST,
+    postID
+  }
+}
+
 export function handleUpVotePosts (postID) {
   return handlePostVoting(postID, 'upVote')
 }

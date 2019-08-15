@@ -4,7 +4,11 @@ import { FaThumbsDown } from "react-icons/fa";
 import { FaThumbsUp } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-import { handleDownVotePosts, handleUpVotePosts } from "../actions/posts";
+import {
+  handleDownVotePosts,
+  handleUpVotePosts,
+  deletePost,
+} from "../actions/posts";
 
 class Post extends React.Component {
   handleUpVote = () => {
@@ -20,7 +24,7 @@ class Post extends React.Component {
   };
 
   handleDelete = () => {
-    console.log("DELETE");
+    this.props.dispatch(deletePost(this.props.post.id));
   };
 
   render() {
