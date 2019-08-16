@@ -1,3 +1,4 @@
+import { thisExpression } from '@babel/types'
 import { showLoading, hideLoading } from 'react-redux-loading'
 import { baseUrl, defaultHeader } from './shared'
 
@@ -17,7 +18,7 @@ export function handleReceivePosts () {
     }
     return fetch(`${baseUrl}/posts`, requestConfig)
       .then(res => res.json())
-      .then(obj => Object.values(obj))
+     .then(data => [...Object.values(data)])
       .then(posts => dispatch(receivePosts(posts)))
       .then(() => dispatch(hideLoading()))
   }

@@ -9,6 +9,9 @@ import {
 export default function posts (state = {}, action) {
   switch (action.type) {
     case RECEIVE_POSTS:
+      // console.log("LENGTH POSTS>>", action.posts.length)
+      // console.log("LENGTH POSTS>>", action.posts[0])
+
       return {
         ...state,
         ...action.posts

@@ -8,9 +8,9 @@ class PostList extends React.Component {
 
     return (
       <div className='post-list-container'>
-        {Object.keys(posts).map(postIndex =>
-          <div key={postIndex}>
-            <Post passedPostId={postIndex} />
+        {posts.map((post, index) =>
+          <div key={index}>
+            <Post passedPostId={post} />
           </div>
         )}
       </div>
@@ -20,7 +20,11 @@ class PostList extends React.Component {
 
 function mapStateToProps (state) {
   const { posts } = state
-  return { posts }
+  console.log('====================================')
+  console.log('posts list >>', JSON.stringify(posts))
+  console.log('====================================')
+  const postIds = Object.values(posts).map(post => post.id)
+  return { posts: postIds }
 }
 
 export default connect(mapStateToProps)(PostList)

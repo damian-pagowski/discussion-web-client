@@ -4,14 +4,13 @@ import { FaThumbsDown } from "react-icons/fa";
 import { FaThumbsUp } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import {
   handleDownVotePosts,
   handleUpVotePosts,
   handleDeletePost,
 } from "../actions/posts";
 
-class Post extends React.Component {
+class PostReadOnly extends React.Component {
   handleUpVote = () => {
     this.props.dispatch(handleUpVotePosts(this.props.post.id));
   };
@@ -29,32 +28,22 @@ class Post extends React.Component {
   };
 
   render() {
-    const post = this.props.post;
+    const post = this.props.post || {};
     console.log("====================================");
-    console.log(JSON.stringify(post));
+    console.log("PROPS>", JSON.stringify(this.props));
     console.log("====================================");
     return (
       <div className="post-container">
         <div className="card">
           <div className="card-header">
-            <span className="category-name">{post.category}</span>
-            Posted by
-            <span className="author-name">{post.author}</span>
-            on
-            <span className="date-posted">
-              {this.props.formatDate(post.timestamp)}
-            </span>
+            <h4>
+              {post.title}
+            </h4>
+            <blockquote className="small text-muted">
+              Posted by {post.author} on {this.props.formatDate(post.timestamp)}
+            </blockquote>
           </div>
           <div className="card-body">
-            <h5 className="card-title">
-              <Link
-                to={{
-                  pathname: `/posts/details/${this.props.post.id}`,
-                }}
-              >
-                {post.title}
-              </Link>
-            </h5>
             <p className="card-text">
               {post.body}
             </p>
@@ -87,18 +76,23 @@ class Post extends React.Component {
 function mapStateToProps(state, props) {
   const { posts } = state;
   const { passedPostId } = props;
+  const postsFiltered = Object.values(posts)
+    .map(p => ({ ...p }))
+    .filter(post => post.id == passedPostId);
+
   console.log("====================================");
-  console.log("Passed Post Id >> ", passedPostId);
+  console.log("POSTS  >> ", JSON.stringify(postsFiltered));
   console.log("====================================");
-  const post = Object.values(posts).filter(post => post.id == passedPostId)[0];
+
   console.log("====================================");
-  console.log("Post Body >> ", post);
+  console.log("POST ID >> ", passedPostId);
   console.log("====================================");
+
   const formatDate = date => new Date(date).toUTCString();
   return {
-    post,
+    post: postsFiltered[0],
     formatDate,
   };
 }
 
-export default connect(mapStateToProps)(Post);
+export default connect(mapStateToProps)(PostReadOnly);
