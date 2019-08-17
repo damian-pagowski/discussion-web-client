@@ -10,7 +10,7 @@ class PostDetails extends React.Component {
     return (
       <div className='d-flex flex-column'>
         <PostReadOnly passedPostId={this.props.id} />
-        <CreateComment />
+        <CreateComment passedPostId={this.props.id} />
         <CommentList passedPostId={this.props.id} />
       </div>
     )

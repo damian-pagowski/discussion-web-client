@@ -1,5 +1,6 @@
 import {
   RECEIVE_POSTS,
+  RECEIVE_POSTS_BY_CATEGORY,
   CREATE_POST,
   UP_VOTE_POST,
   DOWN_VOTE_POST,
@@ -11,6 +12,11 @@ export default function posts (state = {}, action) {
     case RECEIVE_POSTS:
       return {
         ...state,
+        ...action.posts
+      }
+
+    case RECEIVE_POSTS_BY_CATEGORY:
+      return {
         ...action.posts
       }
 
