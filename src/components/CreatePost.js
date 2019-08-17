@@ -2,8 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { handleCreatePost } from "../actions/posts";
 import { generateUID } from "../utils/util";
-import { bindActionCreators } from "../../../../../../../AppData/Local/Microsoft/TypeScript/3.5/node_modules/redux";
-import { async } from "q";
+import { withRouter } from "react-router-dom";
 
 const emptyPost = {
   id: "",
@@ -46,18 +45,12 @@ class CreatePost extends React.Component {
       },
     };
     dispatch(handleCreatePost(body));
-
-    // console.log(JSON.stringify(body))
-
-    // console.log(JSON.stringify("CREATE POST BODY > ", JSON.stringify(body))); // TODO remove
-
-    // this.setState({ ...emptyPost });
-    // console.log("PROPS", JSON.stringify(this.props));
+    this.props.history.push("/");
   };
 
   componentDidMount() {
     const postId = this.props.match.params.post_id;
-    console.log("postId", postId)
+    console.log("postId", postId);
     const posts = this.props.posts;
     const postsFiltered = postId
       ? Object.values(posts)
@@ -155,4 +148,4 @@ function mapStateToProps(state) {
   return { categories, posts };
 }
 
-export default connect(mapStateToProps)(CreatePost);
+export default connect(mapStateToProps)(withRouter(CreatePost));
