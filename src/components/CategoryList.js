@@ -12,9 +12,7 @@ class CategoryList extends React.Component {
       <div className='card-list-container'>
         <div className='card'>
           <div className='card-body'>
-            <h5 className='card-title'>
-              <FaCrown /> Top Categories
-            </h5>
+            <h5 className='card-title'>Categories</h5>
           </div>
           <ul className='list-group list-group-flush'>
             {Object.keys(categories).map(index =>

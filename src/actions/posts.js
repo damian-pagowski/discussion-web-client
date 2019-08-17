@@ -1,5 +1,5 @@
 import { showLoading, hideLoading } from 'react-redux-loading'
-import { baseUrl, defaultHeader } from './shared'
+import { baseUrl, defaultHeader, headerPost } from './shared'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const CREATE_POST = 'CREATE_POST'
@@ -42,7 +42,7 @@ export function handleCreatePost (data) {
     dispatch(showLoading())
     const requestConfig = {
       method: 'POST',
-      headers: defaultHeader,
+      headers: headerPost,
       body: JSON.stringify(data)
     }
     return fetch(`${baseUrl}/posts`, requestConfig)
@@ -106,7 +106,7 @@ function handlePostVoting (postID, opt) {
     dispatch(showLoading())
     const requestConfig = {
       method: 'POST',
-      headers: defaultHeader,
+      headers: headerPost,
       body: JSON.stringify({ option: opt })
     }
     return fetch(`${baseUrl}/posts/${postID}`, requestConfig)
