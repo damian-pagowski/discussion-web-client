@@ -37,25 +37,18 @@ class Comment extends React.Component {
     return (
       <div className="post-container mt-2">
         <div className="card">
-          {/* <div className="card-header">
-            <small>
-              <strong>{comment.author}</strong> &bull; Points:
-              <span className="badge badge-pill badge-secondary">
-                {comment.voteScore}
-              </span>
-              &bull; Posted on
-              <strong>{dateFormatted}</strong>
-            </small>
-          </div> */}
-
           <div className="card-header">
-            <span className="badge badge-pill badge-secondary">
+            <small className="badge badge-pill badge-secondary">
               {comment.voteScore} Votes
-            </span>
-            Posted by
-            <span className="author-name">{comment.author || "Unknown"}</span>
-            on
-            <span className="date-posted">{dateFormatted}</span>
+            </small>
+
+            <small className="text-muted">
+              {" "}Commented by {comment.author || "Unknown"} on{" "}
+            </small>
+
+            <small className="text-muted">
+              {dateFormatted}
+            </small>
           </div>
           <div className="card-body">
             <p className="card-text">

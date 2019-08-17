@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { handleCreatePost } from "../actions/posts";
+import { handleCreatePost, handleUpdatePost } from "../actions/posts";
 import { generateUID } from "../utils/util";
 import { withRouter } from "react-router-dom";
 
@@ -37,34 +37,39 @@ class CreatePost extends React.Component {
     const { dispatch } = this.props;
     const now = new Date().getTime();
     const uuid = generateUID();
-    const body = {
-      ...this.state,
-      ...{
-        id: uuid,
-        timestamp: now,
-      },
-    };
-    dispatch(handleCreatePost(body));
-    this.props.history.push("/");
+
+    if (this.props.post) {
+      const editedPost = {
+        ...this.state,
+        ...{
+          timestamp: now,
+        },
+      };
+      dispatch(handleUpdatePost(editedPost));
+      this.props.history.push(`posts/details/${this.postID}`);
+    } else {
+      const newPost = {
+        ...this.state,
+        ...{
+          id: uuid,
+          timestamp: now,
+        },
+      };
+      dispatch(handleCreatePost(newPost));
+      this.props.history.push("/");
+    }
   };
 
-  componentDidMount() {
-    const postId = this.props.match.params.post_id;
-    console.log("postId", postId);
-    const posts = this.props.posts;
-    const postsFiltered = postId
-      ? Object.values(posts)
-          .map(p => ({ ...p }))
-          .filter(post => post.id == postId)
-      : null;
+  componentWillReceiveProps(newProps) {
+    const oldProps = this.props;
+    console.log("new props", newProps);
+    console.log("old props", oldProps);
 
-    postsFiltered && console.log("UBER", postsFiltered[0]);
-    postsFiltered && this.setState({ ...postsFiltered[0] });
+    this.setState({ ...newProps.post });
   }
 
   render() {
     const { categories } = this.props;
-
     return (
       <div className="post-create-container">
         <div className="my-card">
@@ -72,7 +77,9 @@ class CreatePost extends React.Component {
             {/* start */}
             <div className="row create-form-row">
               <div className="mb-1">
-                <h5 className="create-post-title">Create a post</h5>
+                <h5 className="create-post-title">
+                  {this.props.post ? "Edit Post Details" : "Create a post"}
+                </h5>
               </div>
             </div>
             <div className="row">
@@ -83,7 +90,7 @@ class CreatePost extends React.Component {
                   type="text"
                   className="form-control"
                   aria-label="Text input with dropdown button"
-                  placeholder="Title..."
+                  placeholder={"Title..."}
                   value={this.state.title}
                   name="title"
                   onChange={this.handleInputChange}
@@ -133,7 +140,7 @@ class CreatePost extends React.Component {
                   this.state.category === ""
                 }
               >
-                POST
+                {this.props.post ? "UPDATE" : "POST"}
               </button>
             </div>
           </div>
@@ -143,9 +150,16 @@ class CreatePost extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
   const { categories, posts } = state;
-  return { categories, posts };
+  const postID = props.match.params.post_id || props.location.state.passedPostId;
+  const post = postID
+    ? Object.values(posts)
+        .map(p => ({ ...p }))
+        .filter(post => post.id === postID)[0]
+    : {};
+  console.log("my-post>>", post);
+  return { categories, posts, postID, post };
 }
 
 export default connect(mapStateToProps)(withRouter(CreatePost));

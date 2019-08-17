@@ -5,6 +5,8 @@ import { FaThumbsUp } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+
 import {
   handleDownVotePosts,
   handleUpVotePosts,
@@ -21,6 +23,11 @@ class Post extends React.Component {
   };
 
   handleEdit = () => {
+    this.props.history.push({
+      pathname: `/posts/edit/${this.props.post.id}`,
+      passedPostId : this.props.post.id}
+      );
+
     console.log("EDIT");
   };
 
@@ -101,4 +108,4 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps)(Post);
+export default connect(mapStateToProps)(withRouter(Post));

@@ -3,6 +3,7 @@ import {
   RECEIVE_POSTS_BY_CATEGORY,
   CREATE_POST,
   UP_VOTE_POST,
+  UPDATE_POST,
   DOWN_VOTE_POST,
   DELETE_POST
 } from '../actions/posts'
@@ -39,6 +40,17 @@ export default function posts (state = {}, action) {
         }
       })
       return copyOfState
+
+    case UPDATE_POST:
+      const copyOfStateUpdate = {
+        ...state
+      }
+      Object.keys(copyOfStateUpdate).forEach(function (key) {
+        if (action.post.id == copyOfStateUpdate[key].id) {
+          copyOfStateUpdate[key] = action.post
+        }
+      })
+      return copyOfStateUpdate
 
     case DOWN_VOTE_POST:
       const copyOfStateDownVote = {

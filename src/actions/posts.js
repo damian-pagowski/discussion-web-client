@@ -9,6 +9,7 @@ export const DOWN_VOTE_POST = 'DOWN_VOTE_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const UPDATE_POST = 'UPDATE_POST'
 
+// RECEIVE ALL POSTS
 export function handleReceivePosts () {
   return (dispatch, getState) => {
     dispatch(showLoading())
@@ -31,6 +32,7 @@ function receivePosts (posts) {
   }
 }
 
+//  POST BY CATEGORY
 function receivePostsByCategory (posts) {
   return {
     type: RECEIVE_POSTS_BY_CATEGORY,
@@ -52,7 +54,30 @@ export function handleReceivePostsByCategory (category) {
       .then(() => dispatch(hideLoading()))
   }
 }
+// UPDATE POST
+export function updatePost (post) {
+  return {
+    type: UPDATE_POST,
+    post
+  }
+}
 
+export function handleUpdatePost (data) {
+  return (dispatch, getState) => {
+    dispatch(showLoading())
+    const requestConfig = {
+      method: 'POST',
+      headers: headerPost,
+      body: JSON.stringify(data)
+    }
+    // PUT /posts/:id
+    return fetch(`${baseUrl}/${data.id}`, requestConfig)
+      .then(() => dispatch(updatePost({ title: data.title, body: data.body })))
+      .then(() => dispatch(hideLoading()))
+  }
+}
+
+//  CREATE POST
 export function createPost (post) {
   return {
     type: CREATE_POST,
@@ -74,13 +99,7 @@ export function handleCreatePost (data) {
   }
 }
 
-export function updatePost (post) {
-  return {
-    type: UPDATE_POST,
-    post
-  }
-}
-
+// DELETE POST
 function deletePost (postID) {
   return {
     type: DELETE_POST,
@@ -102,6 +121,7 @@ export function handleDeletePost (postID) {
   }
 }
 
+// VOTING
 export function handleUpVotePosts (postID) {
   return handlePostVoting(postID, 'upVote')
 }
