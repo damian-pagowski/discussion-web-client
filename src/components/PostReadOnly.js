@@ -21,17 +21,22 @@ class PostReadOnly extends React.Component {
 
   handleEdit = () => {
     console.log("EDIT");
-  };
+    this.props.history.push('/')
+    };
 
   handleDelete = () => {
     this.props.dispatch(handleDeletePost(this.props.post.id));
+    this.props.history.push('/')
   };
 
+
+
+  componentDidMount(){
+    console.log("dupa", JSON.stringify(this.props));
+
+  }
   render() {
     const post = this.props.post || {};
-    console.log("====================================");
-    console.log("PROPS>", JSON.stringify(this.props));
-    console.log("====================================");
     return (
       <div className="post-container">
         <div className="card">
@@ -85,13 +90,14 @@ function mapStateToProps(state, props) {
   console.log("====================================");
 
   console.log("====================================");
-  console.log("POST ID >> ", passedPostId);
+  console.log("PROPS >> ", JSON.stringify());
   console.log("====================================");
 
   const formatDate = date => new Date(date).toUTCString();
   return {
     post: postsFiltered[0],
     formatDate,
+    passedPostId,
   };
 }
 

@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import CreateComment from './CreateComment'
-import Comment from './Comment'
 import PostReadOnly from './PostReadOnly'
+import CommentList from './CommentList'
+import { handleReceiveComments } from '../actions/comments'
 
 class PostDetails extends React.Component {
   render () {
@@ -10,9 +11,12 @@ class PostDetails extends React.Component {
       <div className='d-flex flex-column'>
         <PostReadOnly passedPostId={this.props.id} />
         <CreateComment />
-        <Comment />
+        <CommentList passedPostId={this.props.id} />
       </div>
     )
+  }
+  componentDidMount () {
+    this.props.dispatch(handleReceiveComments(this.props.id))
   }
 }
 

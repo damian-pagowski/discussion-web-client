@@ -1,21 +1,28 @@
 import React from "react";
 import { connect } from "react-redux";
-import { createPost } from "../actions/posts";
+import { handleCreatePost } from "../actions/posts";
 import { generateUID } from "../utils/util";
+import { bindActionCreators } from "../../../../../../../AppData/Local/Microsoft/TypeScript/3.5/node_modules/redux";
+import { async } from "q";
+
+const emptyPost = {
+  id: "",
+  timestamp: "",
+  title: "",
+  body: "",
+  author: "Damian",
+  category: "",
+  commentCount: 0,
+  deleted: false,
+  voteScore: 0,
+};
+
 class CreatePost extends React.Component {
-  state = {
-    id: "",
-    timestamp: "",
-    title: "",
-    body: "",
-    author: "Damian",
-    category: "",
-    commentCount: 0,
-    deleted: false,
-    voteScore: 0,
-  };
+  state = { ...emptyPost };
 
   handleInputChange = event => {
+    event.preventDefault();
+
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -31,115 +38,121 @@ class CreatePost extends React.Component {
     const { dispatch } = this.props;
     const now = new Date().getTime();
     const uuid = generateUID();
-
-    const post = {
+    const body = {
       ...this.state,
       ...{
         id: uuid,
         timestamp: now,
       },
     };
+    dispatch(handleCreatePost(body));
 
-    dispatch(createPost(post));
+    // console.log(JSON.stringify(body))
 
-    this.setState({
-      id: "",
-      timestamp: "",
-      title: "",
-      body: "",
-      author: "Damian",
-      category: "",
-      commentCount: 0,
-      deleted: false,
-      voteScore: 0,
-    });
+    // console.log(JSON.stringify("CREATE POST BODY > ", JSON.stringify(body))); // TODO remove
+
+    // this.setState({ ...emptyPost });
+    // console.log("PROPS", JSON.stringify(this.props));
   };
+
+  componentDidMount() {
+    const postId = this.props.match.params.post_id;
+    console.log("postId", postId)
+    const posts = this.props.posts;
+    const postsFiltered = postId
+      ? Object.values(posts)
+          .map(p => ({ ...p }))
+          .filter(post => post.id == postId)
+      : null;
+
+    postsFiltered && console.log("UBER", postsFiltered[0]);
+    postsFiltered && this.setState({ ...postsFiltered[0] });
+  }
 
   render() {
     const { categories } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="post-create-container">
-          <div className="my-card">
-            <div className="card-header">
-              {/* start */}
-              <div className="row create-form-row">
-                <div className="mb-1">
-                  <h5 className="create-post-title">Create a post</h5>
-                </div>
+      <div className="post-create-container">
+        <div className="my-card">
+          <div className="card-header">
+            {/* start */}
+            <div className="row create-form-row">
+              <div className="mb-1">
+                <h5 className="create-post-title">Create a post</h5>
               </div>
-              <div className="row">
-                {/* input */}
-
-                <div class="input-group post-title-input">
-                  <input
-                    type="text"
-                    class="form-control"
-                    aria-label="Text input with dropdown button"
-                    placeholder="Title..."
-                    value={this.state.title}
-                    name="title"
-                    onChange={this.handleInputChange}
-                  />
-                  <div class="input-group-append">
-                    <select
-                      className="form-control"
-                      value={this.state.category}
-                      name="category"
-                      onChange={this.handleInputChange}
-                      defaultValue="none"
-                    >
-                      <option disabled value="none">
-                        Select Category
-                      </option>
-                      {Object.values(categories).map((category, index) =>
-                        <option key={index} value={category.name}>
-                          {category.name.toUpperCase()}
-                        </option>
-                      )}
-                    </select>
-                  </div>
-                </div>
-                {/* input end */}
-              </div>
-              {/* end */}
             </div>
-              <div className="card-body">
-                <textarea
-                  class="custom-text-area form-control "
-                  id="exampleFormControlTextarea1"
-                  placeholder="Post..."
-                  value={this.state.body}
-                  name="body"
+            <div className="row">
+              {/* input */}
+
+              <div className="input-group post-title-input">
+                <input
+                  type="text"
+                  className="form-control"
+                  aria-label="Text input with dropdown button"
+                  placeholder="Title..."
+                  value={this.state.title}
+                  name="title"
                   onChange={this.handleInputChange}
                 />
-              </div>
-              <div className="custom-card-footer">
-                <div className="post-button">
-                  <button
-                    type="submit"
-                    class="btn btn-info "
-                    disabled={
-                      this.state.title === "" ||
-                      this.state.body === "" ||
-                      this.state.category === ""
-                    }
+                <div className="input-group-append">
+                  <select
+                    className="form-control"
+                    value={this.state.category}
+                    name="category"
+                    onChange={this.handleInputChange}
+                    defaultValue=""
                   >
-                    POST
-                  </button>
+                    <option value="" selected>
+                      Select Category
+                    </option>
+                    {Object.values(categories).map((category, index) =>
+                      <option key={index} value={category.name}>
+                        {category.name.toUpperCase()}
+                      </option>
+                    )}
+                  </select>
                 </div>
               </div>
+              {/* input end */}
+            </div>
+            {/* end */}
+          </div>
+          <div className="card-body">
+            <textarea
+              className="custom-text-area form-control "
+              id="exampleFormControlTextarea1"
+              placeholder="Post..."
+              value={this.state.body}
+              name="body"
+              onChange={this.handleInputChange}
+            />
+          </div>
+          <div className="custom-card-footer">
+            <div className="post-button">
+              <button
+                type="submit"
+                onClick={this.handleSubmit}
+                className="btn btn-info "
+                disabled={
+                  this.state.title === "" ||
+                  this.state.body === "" ||
+                  this.state.category === ""
+                }
+              >
+                POST
+              </button>
+            </div>
           </div>
         </div>
-      </form>
+      </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { categories } = state;
-  return { categories };
+  const { categories, posts } = state;
+  return { categories, posts };
 }
 
 export default connect(mapStateToProps)(CreatePost);

@@ -1,4 +1,3 @@
-import { thisExpression } from '@babel/types'
 import { showLoading, hideLoading } from 'react-redux-loading'
 import { baseUrl, defaultHeader } from './shared'
 
@@ -18,7 +17,7 @@ export function handleReceivePosts () {
     }
     return fetch(`${baseUrl}/posts`, requestConfig)
       .then(res => res.json())
-     .then(data => [...Object.values(data)])
+      .then(data => [...Object.values(data)])
       .then(posts => dispatch(receivePosts(posts)))
       .then(() => dispatch(hideLoading()))
   }
@@ -35,6 +34,20 @@ export function createPost (post) {
   return {
     type: CREATE_POST,
     post
+  }
+}
+
+export function handleCreatePost (data) {
+  return (dispatch, getState) => {
+    dispatch(showLoading())
+    const requestConfig = {
+      method: 'POST',
+      headers: defaultHeader,
+      body: JSON.stringify(data)
+    }
+    return fetch(`${baseUrl}/posts`, requestConfig)
+      .then(() => dispatch(createPost(data)))
+      .then(() => dispatch(hideLoading()))
   }
 }
 

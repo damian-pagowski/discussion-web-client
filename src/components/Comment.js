@@ -7,27 +7,19 @@ import { FaTrash } from 'react-icons/fa'
 
 class Comment extends React.Component {
   render () {
-    const comment = {
-      body:
-        ' Quisque suscipit aliquam ipsum a faucibus. Morbi egestas in lorem sed laoreet. Aliquam lobortis volutpat ex id rutrum. Proin commodo a felis at porta.',
-      id: 'aaa1234',
-      timestamp: '1467166872634',
-      author: 'Damian',
-      parentId: 'abcd999',
-      voteScore: 0
-    }
-    console.log('====================================')
-    console.log(JSON.stringify(this.props))
-    console.log('====================================')
+    const { comment } = this.props
+
     const dateFormatted = new Date(comment.timestamp).toUTCString()
 
     return (
       <div className='post-container mt-2'>
         <div className='card'>
           <div className='card-header'>
-
-          <small> <strong>{comment.author}</strong> &bull; Points: <strong>{comment.voteScore}</strong>  &bull; Posted on <strong>{dateFormatted}</strong></small>
-           
+            <small>
+              <strong>{comment.author}</strong> &bull; Points:
+              <strong>{comment.voteScore}</strong> &bull; Posted on
+              <strong>{dateFormatted}</strong>
+            </small>
           </div>
           <div className='card-body'>
             <p className='card-text'>
@@ -42,7 +34,7 @@ class Comment extends React.Component {
                   <FaTrash />
                 </span>
               </div>
-              
+
               <div className='my-badge'>
                 <span className='icon'>
                   <FaThumbsDown />
@@ -58,9 +50,16 @@ class Comment extends React.Component {
     )
   }
 }
-function mapStateToProps (state) {
-  const { posts } = state
-  return { posts }
+function mapStateToProps (state, props) {
+  const { comments } = state
+  const { commentId } = props
+  const comment = Object.values(comments).filter(
+    comment => comment.id === commentId
+  )[0]
+  console.log('====================================')
+  console.log('Comment >>', JSON.stringify(comment))
+  console.log('====================================')
+  return { comment }
 }
 
 export default connect(mapStateToProps)(Comment)
