@@ -9,6 +9,8 @@ import {
   handleUpVotePosts,
   handleDeletePost,
 } from "../actions/posts";
+import { withRouter } from "react-router-dom";
+
 
 class PostReadOnly extends React.Component {
   handleUpVote = () => {
@@ -21,8 +23,12 @@ class PostReadOnly extends React.Component {
 
   handleEdit = () => {
     console.log("EDIT");
-    this.props.history.push('/')
-    };
+    this.props.history.push(`/posts/edit/${this.props.post.id}`, {
+      id: this.props.post.id,
+      title: this.props.post.title,
+      body: this.props.post.body,
+    });    
+  };
 
   handleDelete = () => {
     this.props.dispatch(handleDeletePost(this.props.post.id));
@@ -101,4 +107,4 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps)(PostReadOnly);
+export default connect(mapStateToProps)(withRouter(PostReadOnly));

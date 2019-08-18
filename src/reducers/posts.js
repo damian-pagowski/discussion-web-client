@@ -46,8 +46,10 @@ export default function posts (state = {}, action) {
         ...state
       }
       Object.keys(copyOfStateUpdate).forEach(function (key) {
-        if (action.post.id == copyOfStateUpdate[key].id) {
-          copyOfStateUpdate[key] = action.post
+        if (action.id == copyOfStateUpdate[key].id) {
+          copyOfStateUpdate[key].body = action.post.body
+          copyOfStateUpdate[key].title = action.post.title
+
         }
       })
       return copyOfStateUpdate

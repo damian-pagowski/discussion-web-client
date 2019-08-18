@@ -6,10 +6,9 @@ import { connect } from 'react-redux'
 class Navbar extends React.Component {
   render () {
     return (
-      <div className="container">
         <nav className='navbar navbar-dark bg-dark transparent-navbar'>
           <a className='navbar-brand' href='/'>
-            Readable
+            <span className="logo">Readable</span>
           </a>
           <ul className='navbar-nav px-2 mr-auto '>
             <li className='nav-item'>
@@ -24,7 +23,6 @@ class Navbar extends React.Component {
             </li>
           </ul>
         </nav>
-        </div>
     )
   }
 }

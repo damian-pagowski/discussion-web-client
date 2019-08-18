@@ -13,7 +13,7 @@ class CategoryList extends React.Component {
     return (
       <div className="card-list-container">
         <div className="card">
-          <div className="card-body">
+          <div className="card-body bg-color-header">
             <h5 className="card-title">Categories</h5>
           </div>
           <ul className="list-group list-group-flush">

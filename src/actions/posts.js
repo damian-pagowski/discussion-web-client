@@ -55,24 +55,27 @@ export function handleReceivePostsByCategory (category) {
   }
 }
 // UPDATE POST
-export function updatePost (post) {
+export function updatePost (id, post) {
   return {
     type: UPDATE_POST,
-    post
+    post,
+    id
   }
 }
 
-export function handleUpdatePost (data) {
+export function handleUpdatePost (id, data) {
   return (dispatch, getState) => {
     dispatch(showLoading())
     const requestConfig = {
-      method: 'POST',
+      method: 'PUT',
       headers: headerPost,
       body: JSON.stringify(data)
     }
     // PUT /posts/:id
-    return fetch(`${baseUrl}/${data.id}`, requestConfig)
-      .then(() => dispatch(updatePost({ title: data.title, body: data.body })))
+    return fetch(`${baseUrl}/posts/${id}`, requestConfig)
+      .then(() =>
+        dispatch(updatePost(id, { title: data.title, body: data.body }))
+      )
       .then(() => dispatch(hideLoading()))
   }
 }

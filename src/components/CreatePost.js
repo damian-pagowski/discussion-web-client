@@ -38,15 +38,14 @@ class CreatePost extends React.Component {
     const now = new Date().getTime();
     const uuid = generateUID();
 
-    if (this.props.post) {
+    if (this.props.location.state) {
       const editedPost = {
-        ...this.state,
-        ...{
-          timestamp: now,
-        },
+        body: this.state.body,
+        title: this.state.title,
       };
-      dispatch(handleUpdatePost(editedPost));
-      this.props.history.push(`posts/details/${this.postID}`);
+
+      dispatch(handleUpdatePost(this.props.location.state.id, editedPost));
+      this.props.history.push(`posts/details/${this.props.location.state.id}`);
     } else {
       const newPost = {
         ...this.state,
@@ -60,12 +59,16 @@ class CreatePost extends React.Component {
     }
   };
 
-  componentWillReceiveProps(newProps) {
-    const oldProps = this.props;
-    console.log("new props", newProps);
-    console.log("old props", oldProps);
+  componentDidMount() {
+    this.props.location.state && this.setState({ ...this.props.location.state });
 
-    this.setState({ ...newProps.post });
+    console.log("componentDidMount");
+  }
+  componentWillReceiveProps(newProps) {
+    console.log("PASED STATE: ", newProps.location.state);
+    console.log("OLD STATE: ", this.props.location.state);
+
+    newProps.location.state && this.setState({ ...newProps.location.state });
   }
 
   render() {
@@ -78,7 +81,9 @@ class CreatePost extends React.Component {
             <div className="row create-form-row">
               <div className="mb-1">
                 <h5 className="create-post-title">
-                  {this.props.post ? "Edit Post Details" : "Create a post"}
+                  {this.props.location.state
+                    ? "Edit Post Details"
+                    : "Create a post"}
                 </h5>
               </div>
             </div>
@@ -96,22 +101,23 @@ class CreatePost extends React.Component {
                   onChange={this.handleInputChange}
                 />
                 <div className="input-group-append">
-                  <select
-                    className="form-control"
-                    value={this.state.category}
-                    name="category"
-                    onChange={this.handleInputChange}
-                    defaultValue=""
-                  >
-                    <option value="" selected>
-                      Select Category
-                    </option>
-                    {Object.values(categories).map((category, index) =>
-                      <option key={index} value={category.name}>
-                        {category.name.toUpperCase()}
+                  {!this.props.location.state &&
+                    <select
+                      className="form-control"
+                      value={this.state.category}
+                      name="category"
+                      onChange={this.handleInputChange}
+                      defaultValue=""
+                    >
+                      <option value="" selected>
+                        Select Category
                       </option>
-                    )}
-                  </select>
+                      {Object.values(categories).map((category, index) =>
+                        <option key={index} value={category.name}>
+                          {category.name.toUpperCase()}
+                        </option>
+                      )}
+                    </select>}
                 </div>
               </div>
               {/* input end */}
@@ -135,12 +141,14 @@ class CreatePost extends React.Component {
                 onClick={this.handleSubmit}
                 className="btn btn-info "
                 disabled={
-                  this.state.title === "" ||
-                  this.state.body === "" ||
-                  this.state.category === ""
+                  this.props.location.state
+                    ? false
+                    : this.state.title === "" ||
+                      this.state.body === "" ||
+                      this.state.category === ""
                 }
               >
-                {this.props.post ? "UPDATE" : "POST"}
+                {this.props.location.state ? "UPDATE" : "POST"}
               </button>
             </div>
           </div>
@@ -152,14 +160,9 @@ class CreatePost extends React.Component {
 
 function mapStateToProps(state, props) {
   const { categories, posts } = state;
-  const postID = props.match.params.post_id || props.location.state.passedPostId;
-  const post = postID
-    ? Object.values(posts)
-        .map(p => ({ ...p }))
-        .filter(post => post.id === postID)[0]
-    : {};
-  console.log("my-post>>", post);
-  return { categories, posts, postID, post };
+  const postID = props.match.params.post_id || props.location.state;
+  console.log("props.location.state", props.location.state);
+  return { categories, posts, postID };
 }
 
 export default connect(mapStateToProps)(withRouter(CreatePost));

@@ -23,12 +23,14 @@ class Post extends React.Component {
   };
 
   handleEdit = () => {
-    this.props.history.push({
-      pathname: `/posts/edit/${this.props.post.id}`,
-      passedPostId : this.props.post.id}
-      );
-
-    console.log("EDIT");
+    console.log("EDIT POST CLICKED. PAssing props...")
+    this.props.history.push(`/posts/edit/${this.props.post.id}`, {
+      id: this.props.post.id,
+      title: this.props.post.title,
+      body: this.props.post.body,
+      category: this.props.post.category,
+      
+    });
   };
 
   handleDelete = () => {

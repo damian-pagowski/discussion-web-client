@@ -172,3 +172,12 @@ body {
   cursor: pointer;
   text-transform: capitalize;
 }
+.logo{
+  display: inline-block;
+  margin: 0 0 0 0;
+  padding-left: 50px;
+}
+
+.bg-color-header {
+background-color:  rgba(0,0,0,.03)
+}
