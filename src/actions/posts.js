@@ -1,5 +1,13 @@
 import { showLoading, hideLoading } from 'react-redux-loading'
-import { baseUrl, defaultHeader, headerPost } from './shared'
+
+import {
+  _getPosts,
+  _getPostsByCategory,
+  _updatePost,
+  _voteOnPost,
+  _deletePost,
+  _createPost
+} from '../utils/api'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_POSTS_BY_CATEGORY = 'RECEIVE_POSTS_BY_CATEGORY'
@@ -13,12 +21,7 @@ export const UPDATE_POST = 'UPDATE_POST'
 export function handleReceivePosts () {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    const requestConfig = {
-      method: 'GET',
-      headers: defaultHeader
-    }
-    return fetch(`${baseUrl}/posts`, requestConfig)
-      .then(res => res.json())
+    return _getPosts()
       .then(data => [...Object.values(data)])
       .then(posts => dispatch(receivePosts(posts)))
       .then(() => dispatch(hideLoading()))
@@ -43,12 +46,7 @@ function receivePostsByCategory (posts) {
 export function handleReceivePostsByCategory (category) {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    const requestConfig = {
-      method: 'GET',
-      headers: defaultHeader
-    }
-    return fetch(`${baseUrl}/${category}/posts`, requestConfig)
-      .then(res => res.json())
+    return _getPostsByCategory(category)
       .then(data => [...Object.values(data)])
       .then(posts => dispatch(receivePostsByCategory(posts)))
       .then(() => dispatch(hideLoading()))
@@ -66,13 +64,7 @@ export function updatePost (id, post) {
 export function handleUpdatePost (id, data) {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    const requestConfig = {
-      method: 'PUT',
-      headers: headerPost,
-      body: JSON.stringify(data)
-    }
-    // PUT /posts/:id
-    return fetch(`${baseUrl}/posts/${id}`, requestConfig)
+    return _updatePost(id, data)
       .then(() =>
         dispatch(updatePost(id, { title: data.title, body: data.body }))
       )
@@ -91,12 +83,7 @@ export function createPost (post) {
 export function handleCreatePost (data) {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    const requestConfig = {
-      method: 'POST',
-      headers: headerPost,
-      body: JSON.stringify(data)
-    }
-    return fetch(`${baseUrl}/posts`, requestConfig)
+    return _createPost(data)
       .then(() => dispatch(createPost(data)))
       .then(() => dispatch(hideLoading()))
   }
@@ -113,12 +100,7 @@ function deletePost (postID) {
 export function handleDeletePost (postID) {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    const requestConfig = {
-      method: 'DELETE',
-      headers: defaultHeader
-    }
-    return fetch(`${baseUrl}/posts/${postID}`, requestConfig)
-      .then(res => console.log('API RESPONSE >> ', res.json()))
+    return _deletePost(postID)
       .then(() => dispatch(deletePost(postID)))
       .then(() => dispatch(hideLoading()))
   }
@@ -150,13 +132,7 @@ function downVotePost (postID) {
 function handlePostVoting (postID, opt) {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    const requestConfig = {
-      method: 'POST',
-      headers: headerPost,
-      body: JSON.stringify({ option: opt })
-    }
-    return fetch(`${baseUrl}/posts/${postID}`, requestConfig)
-      .then(res => console.log('API RESPONSE >> ', res.json()))
+    _voteOnPost(postID, opt)
       .then(() =>
         dispatch(opt === 'upVote' ? upVotePost(postID) : downVotePost(postID))
       )

@@ -7,6 +7,7 @@ import PostList from './PostList'
 import CreatePost from './CreatePost'
 import PostDetails from './PostDetails'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
+import CreateComment from './CreateComment';
 
 class App extends React.Component {
   render () {
@@ -27,6 +28,11 @@ class App extends React.Component {
                   exact
                   path='/posts/edit/:post_id'
                   component={CreatePost}
+                />
+                 <Route
+                  exact
+                  path='/edit-comment/:post_id/:comment_id'
+                  component={CreateComment}
                 />
                 <Route exact path='/' component={PostList} />
                 <Redirect from='*' to='/' />

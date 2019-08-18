@@ -3,7 +3,8 @@ import {
   CREATE_COMMENT,
   UP_VOTE_COMMENT,
   DOWN_VOTE_COMMENT,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  UPDATE_COMMENT
 } from '../actions/comments'
 
 export default function comments (state = {}, action) {
@@ -29,7 +30,10 @@ export default function comments (state = {}, action) {
       }
       Object.keys(copyOfState).forEach(function (key) {
         if (action.commentID == copyOfState[key].id) {
-          console.log("FROM REDUCER - UP_VOTE_COMMENT: ", copyOfState[key].voteScore)
+          console.log(
+            'FROM REDUCER - UP_VOTE_COMMENT: ',
+            copyOfState[key].voteScore
+          )
           copyOfState[key].voteScore = ++copyOfState[key].voteScore
         }
       })
@@ -41,7 +45,10 @@ export default function comments (state = {}, action) {
       }
       Object.keys(copyOfStateDownVote).forEach(function (key) {
         if (action.commentID === copyOfStateDownVote[key].id) {
-          console.log("FROM REDUCER - UP_VOTE_COMMENT: ", copyOfStateDownVote[key].voteScore)
+          console.log(
+            'FROM REDUCER - UP_VOTE_COMMENT: ',
+            copyOfStateDownVote[key].voteScore
+          )
           copyOfStateDownVote[key].voteScore = --copyOfStateDownVote[key]
             .voteScore
         }
@@ -58,6 +65,18 @@ export default function comments (state = {}, action) {
         }
       })
       return copyOfStateDelete
+
+    case UPDATE_COMMENT:
+      const copyOfStateUpdate = {
+        ...state
+      }
+      Object.keys(copyOfStateUpdate).forEach(function (key) {
+        if (action.commentID == copyOfStateUpdate[key].id) {
+          copyOfStateUpdate[key].body = action.comment.body
+          copyOfStateUpdate[key].timestamp = action.comment.timestamp
+        }
+      })
+      return copyOfStateUpdate
 
     default:
       return state

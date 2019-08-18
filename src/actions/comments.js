@@ -1,5 +1,11 @@
 import { showLoading, hideLoading } from 'react-redux-loading'
-import { baseUrl, defaultHeader, headerPost } from './shared'
+import {
+  _voteOnComment,
+  _getComments,
+  _createComment,
+  _deleteComment,
+  _updateComment
+} from '../utils/api'
 
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const CREATE_COMMENT = 'CREATE_COMMENT'
@@ -11,12 +17,7 @@ export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 export function handleReceiveComments (postId) {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    const requestConfig = {
-      method: 'GET',
-      headers: defaultHeader
-    }
-    return fetch(`${baseUrl}/posts/${postId}/comments`, requestConfig)
-      .then(res => res.json())
+    return _getComments(postId)
       .then(comments => dispatch(receiveComments(comments)))
       .then(() => dispatch(hideLoading()))
   }
@@ -39,21 +40,9 @@ export function createComment (comment) {
 export function handleCreateComment (data) {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    const requestConfig = {
-      method: 'POST',
-      headers: headerPost,
-      body: JSON.stringify(data)
-    }
-    return fetch(`${baseUrl}/comments`, requestConfig)
+    return _createComment(data)
       .then(() => dispatch(createComment(data)))
       .then(() => dispatch(hideLoading()))
-  }
-}
-
-export function updateComment (comment) {
-  return {
-    type: UPDATE_COMMENT,
-    comment
   }
 }
 
@@ -67,12 +56,7 @@ function deleteComment (commentID) {
 export function handleDeleteComment (commentID) {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    const requestConfig = {
-      method: 'DELETE',
-      headers: defaultHeader
-    }
-    return fetch(`${baseUrl}/comments/${commentID}`, requestConfig)
-      .then(res => res.json().then(r => console.log('API RESPONSE >> ', r)))
+    return _deleteComment(commentID)
       .then(() => dispatch(deleteComment(commentID)))
       .then(() => dispatch(hideLoading()))
   }
@@ -103,13 +87,7 @@ function downVoteComment (commentID) {
 function handleCommentVoting (commentID, opt) {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    const requestConfig = {
-      method: 'POST',
-      headers: headerPost,
-      body: JSON.stringify({ option: opt })
-    }
-    return fetch(`${baseUrl}/comments/${commentID}`, requestConfig)
-      .then(res => res.json().then(r => console.log('API RESPONSE >> ', r)))
+    return _voteOnComment(commentID, opt)
       .then(() =>
         dispatch(
           opt === 'upVote'
@@ -117,6 +95,24 @@ function handleCommentVoting (commentID, opt) {
             : downVoteComment(commentID)
         )
       )
+      .then(() => dispatch(hideLoading()))
+  }
+}
+
+function updateComment (postID, commentID, comment) {
+  return {
+    type: UPDATE_COMMENT,
+    postID,
+    commentID,
+    comment
+  }
+}
+
+export function handleUpdateComment (postID, commentID, comment) {
+  return (dispatch, getState) => {
+    dispatch(showLoading())
+    return _updateComment(commentID, comment)
+      .then(() => dispatch(updateComment(postID, commentID, comment)))
       .then(() => dispatch(hideLoading()))
   }
 }

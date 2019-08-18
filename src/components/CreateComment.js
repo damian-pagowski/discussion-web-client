@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { generateUID } from "../utils/util";
-import { handleCreateComment } from "../actions/comments";
+import { handleCreateComment, handleUpdateComment } from "../actions/comments";
 import { withRouter } from "react-router-dom";
 
 const emptyComment = {
@@ -33,27 +33,46 @@ class CreateComment extends React.Component {
     const now = new Date().getTime();
     const uuid = generateUID();
 
-    const comment = {
-      ...this.state,
-      ...{
-        id: uuid,
-        timestamp: now,
-        parentId: passedPostId,
-      },
-    };
+    const editedPostId = this.props.match.params.post_id;
+    const editedCommentId = this.props.match.params.comment_id;
 
-    dispatch(handleCreateComment(comment));
+    if (editedCommentId && editedPostId) {
+      // dispatch(handleUpdateComment(comment));
+    } else {
+      const comment = {
+        ...this.state,
+        ...{
+          id: uuid,
+          timestamp: now,
+          parentId: passedPostId,
+        },
+      };
+      dispatch(handleCreateComment(comment));
+    }
     console.log("====================================");
-    console.log("PROPS>", JSON.stringify(this.props));
+    console.log("PROPS>COMMENT", JSON.stringify(this.props));
     console.log("passedPostId>", passedPostId);
-
     console.log("====================================");
     this.setState({ ...emptyComment });
     this.props.history.push(`/posts/details/${passedPostId}`);
   };
 
+  componentDidMount() {
+    const editedPostId = this.props.match.params.post_id;
+    const editedCommentId = this.props.match.params.comment_id;
+
+
+    // this.setState({body}) 
+    console.log("passedprops>", editedCommentId, "<comment>", editedPostId);
+  }
+
+  componentWillReceiveProps(newProps) {
+    newProps.location.state && this.setState({ ...newProps.location.state });
+  }
+
   render() {
     const author = "Damian";
+    console.log("PROPS>COMMENT", JSON.stringify(this.props));
 
     return (
       <div className="card create-comment-card mt-1">
@@ -88,8 +107,10 @@ class CreateComment extends React.Component {
   }
 }
 
-function mapStateToProps({}, props) {
+function mapStateToProps(state, props) {
   const { passedPostId } = props;
-  return { passedPostId };
+
+  const comments = state;
+  return { passedPostId, comments };
 }
 export default connect(mapStateToProps)(withRouter(CreateComment));

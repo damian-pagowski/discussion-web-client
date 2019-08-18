@@ -82,10 +82,6 @@ class Comment extends React.Component {
 function mapStateToProps(state, props) {
   const { comments } = state;
   const { commentId } = props;
-
-  console.log("====================================");
-  // console.log("Comment >>", JSON.stringify(comment));
-  console.log("====================================");
   return { commentId, comments };
 }
 

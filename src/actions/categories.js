@@ -1,8 +1,7 @@
 import { showLoading, hideLoading } from 'react-redux-loading'
-import { baseUrl } from './shared'
+import { _getCategories } from '../utils/api'
 
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
-
 
 export function receiveCategories (categories) {
   return {
@@ -14,16 +13,8 @@ export function receiveCategories (categories) {
 export function handleReceiveCategories () {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    const requestConfig = {
-      method: 'GET',
-      headers: new Headers({
-        Authorization: 'whatever'
-      })
-    }
-
-    return fetch(`${baseUrl}/categories`, requestConfig)
-      .then(res => res.json())
-      .then(cat => dispatch(receiveCategories(cat["categories"])))
+    return _getCategories()
+      .then(categories => dispatch(receiveCategories(categories['categories'])))
       .then(() => dispatch(hideLoading()))
   }
 }

@@ -21,15 +21,12 @@ class CreatePost extends React.Component {
 
   handleInputChange = event => {
     event.preventDefault();
-
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
-
     this.setState({
       [name]: value,
     });
-    console.log(JSON.stringify(this.state)); // TODO remove
   };
 
   handleSubmit = event => {
@@ -60,14 +57,11 @@ class CreatePost extends React.Component {
   };
 
   componentDidMount() {
-    this.props.location.state && this.setState({ ...this.props.location.state });
-
-    console.log("componentDidMount");
+    this.props.location.state &&
+      this.setState({ ...this.props.location.state });
   }
-  componentWillReceiveProps(newProps) {
-    console.log("PASED STATE: ", newProps.location.state);
-    console.log("OLD STATE: ", this.props.location.state);
 
+  componentWillReceiveProps(newProps) {
     newProps.location.state && this.setState({ ...newProps.location.state });
   }
 
@@ -161,7 +155,6 @@ class CreatePost extends React.Component {
 function mapStateToProps(state, props) {
   const { categories, posts } = state;
   const postID = props.match.params.post_id || props.location.state;
-  console.log("props.location.state", props.location.state);
   return { categories, posts, postID };
 }
 
