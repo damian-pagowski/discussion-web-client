@@ -2,11 +2,18 @@ import React from "react";
 import Category from "./Category";
 import { connect } from "react-redux";
 import { handleReceivePosts } from "../../actions/posts";
+import { handleReceiveCategories } from "../../actions/categories";
 
 class CategoryList extends React.Component {
   displayAllPosts = () => {
     this.props.dispatch(handleReceivePosts());
   };
+
+
+  componentDidMount = () => {
+    this.props.dispatch(handleReceiveCategories())
+
+  }
   render() {
     const { categories } = this.props;
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { handleInitialData } from '../actions/shared'
 import Navbar from './Navbar'
 import CategoryList from './category/CategoryList'
 import PostList from './post/PostList'
@@ -19,6 +18,11 @@ class App extends React.Component {
           <div className='row'>
             <div className='col-sm-9'>
               <Switch>
+                {/*
+                /category
+                /category/post_ID
+                */}
+                <Route exact path='/:category' component={PostList} />
                 <Route exact path='/posts/new' component={CreatePost} />
                 <Route
                   exact
@@ -47,10 +51,6 @@ class App extends React.Component {
         </div>
       </BrowserRouter>
     )
-  }
-
-  componentDidMount () {
-    this.props.dispatch(handleInitialData())
   }
 }
 
