@@ -22,7 +22,7 @@ class Comment extends React.Component {
 
   handleEdit = () => {
     this.props.history.push(
-      `/edit-comment/${this.props.comment.parentId}/${this.props.comment.id}`
+      `/comment/edit/${this.props.comment.parentId}/${this.props.comment.id}`
     );
   };
 

@@ -32,7 +32,7 @@ class App extends React.Component {
                 />
                 <Route
                   exact
-                  path='/edit-comment/:post_id/:comment_id'
+                  path='/comment/edit/:post_id/:comment_id'
                   component={CreateComment}
                 />
                 <Route exact path='/' component={PostList} />
