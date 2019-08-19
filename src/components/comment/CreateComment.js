@@ -7,6 +7,7 @@ import {
 } from "../../actions/comments";
 import { _getPostDetails, _getCommentDetails } from "../../utils/api";
 import { withRouter } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 const emptyComment = {
   id: "",
@@ -37,12 +38,9 @@ class CreateComment extends React.Component {
     const now = new Date().getTime();
     const uuid = generateUID();
 
-    const editedPostId = this.props.match.params.post_id;
-    const editedCommentId = this.props.match.params.comment_id;
-
-    if (editedCommentId && editedPostId) {
+    if (this.state.parentId && this.state.id) {
       dispatch(
-        handleUpdateComment(editedPostId, editedCommentId, {
+        handleUpdateComment(this.state.parentId, this.state.id, {
           timestamp: now,
           body: this.state.body,
         })
@@ -53,29 +51,40 @@ class CreateComment extends React.Component {
         ...{
           id: uuid,
           timestamp: now,
-          parentId: editedPostId,
+          parentId: this.props.match.params.post_id,
         },
       };
       dispatch(handleCreateComment(comment));
     }
-    console.log("====================================");
-    console.log("PROPS>COMMENT", JSON.stringify(this.props));
-    console.log("passedPostId>", editedPostId);
-    console.log("====================================");
+
     this.setState({ ...emptyComment });
-    this.props.history.push(`/posts/details/${editedPostId}`);
+    this.props.history.push(
+      `/posts/details/${this.props.match.params.post_id}`
+    );
   };
 
   componentDidMount() {
     const commentId = this.props.match.params.comment_id;
     if (commentId) {
-      _getCommentDetails(commentId).then(rsp =>
-        this.setState({ body: rsp.body })
+      _getCommentDetails(commentId).then(
+        resp =>
+          resp.hasOwnProperty("error")
+            ? this.setState({ redirect: true })
+            : this.setState({ ...resp })
       );
     }
   }
 
   render() {
+    if (this.state.redirect) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/error-404",
+          }}
+        />
+      );
+    }
     const author = "Damian";
     return (
       <div className="card create-comment-card mt-1">

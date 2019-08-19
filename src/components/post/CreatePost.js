@@ -4,6 +4,7 @@ import { handleCreatePost, handleUpdatePost } from "../../actions/posts";
 import { generateUID } from "../../utils/util";
 import { withRouter } from "react-router-dom";
 import { _getPostDetails } from "../../utils/api";
+import { Redirect } from "react-router-dom";
 
 const emptyPost = {
   id: "",
@@ -41,8 +42,9 @@ class CreatePost extends React.Component {
         body: this.state.body,
         title: this.state.title,
       };
-      dispatch(handleUpdatePost(postID, postUpdate)).then( () =>
-      this.props.history.push(`/posts/details/${postID}`));
+      dispatch(handleUpdatePost(postID, postUpdate)).then(() =>
+        this.props.history.push(`/posts/details/${postID}`)
+      );
     } else {
       const newPost = {
         ...this.state,
@@ -56,14 +58,28 @@ class CreatePost extends React.Component {
     }
   };
 
-  componentDidMount() {
-    const id = this.props.postID;
+  componentDidMount = () => {
+    const id = this.props.match.params.post_id;
     if (id) {
-      _getPostDetails(id).then(resp => this.setState({ ...resp }));
+      _getPostDetails(id).then(
+        resp =>
+          resp.hasOwnProperty("error")
+            ? this.setState({ redirect: true })
+            : this.setState({ ...resp })
+      );
     }
-  }
+  };
 
   render() {
+    if (this.state.redirect) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/error-404",
+          }}
+        />
+      );
+    }
     const { categories } = this.props;
     return (
       <div className="post-create-container">

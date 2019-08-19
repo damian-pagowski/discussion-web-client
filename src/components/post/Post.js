@@ -23,13 +23,7 @@ class Post extends React.Component {
   };
 
   handleEdit = () => {
-    console.log("EDIT POST CLICKED. PAssing props...")
-    this.props.history.push(`/posts/edit/${this.props.post.id}`, {
-      id: this.props.post.id,
-      title: this.props.post.title,
-      body: this.props.post.body,
-      category: this.props.post.category,
-    });
+    this.props.history.push(`/posts/edit/${this.props.post.id}`);
   };
 
   handleDelete = () => {
@@ -38,9 +32,6 @@ class Post extends React.Component {
 
   render() {
     const post = this.props.post;
-    console.log("====================================");
-    console.log(JSON.stringify(post));
-    console.log("====================================");
     return (
       <div className="post-container">
         <div className="card">
@@ -95,13 +86,7 @@ class Post extends React.Component {
 function mapStateToProps(state, props) {
   const { posts } = state;
   const { passedPostId } = props;
-  console.log("====================================");
-  console.log("Passed Post Id >> ", passedPostId);
-  console.log("====================================");
   const post = Object.values(posts).filter(post => post.id == passedPostId)[0];
-  console.log("====================================");
-  console.log("Post Body >> ", post);
-  console.log("====================================");
   const formatDate = date => new Date(date).toUTCString();
   return {
     post,

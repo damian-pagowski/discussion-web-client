@@ -20,9 +20,6 @@ class PostList extends React.Component {
 
 function mapStateToProps (state) {
   const { posts } = state
-  console.log('====================================')
-  console.log('posts list >>', JSON.stringify(posts))
-  console.log('====================================')
   const postIds = Object.values(posts).map(post => post.id)
   return { posts: postIds }
 }

@@ -11,7 +11,6 @@ import {
 } from "../../actions/posts";
 import { withRouter } from "react-router-dom";
 
-
 class PostReadOnly extends React.Component {
   handleUpVote = () => {
     this.props.dispatch(handleUpVotePosts(this.props.post.id));
@@ -27,19 +26,16 @@ class PostReadOnly extends React.Component {
       id: this.props.post.id,
       title: this.props.post.title,
       body: this.props.post.body,
-    });    
+    });
   };
 
   handleDelete = () => {
     this.props.dispatch(handleDeletePost(this.props.post.id));
-    this.props.history.push('/')
+    this.props.history.push("/");
   };
 
-
-
-  componentDidMount(){
+  componentDidMount() {
     console.log("dupa", JSON.stringify(this.props));
-
   }
   render() {
     const post = this.props.post || {};
@@ -90,15 +86,6 @@ function mapStateToProps(state, props) {
   const postsFiltered = Object.values(posts)
     .map(p => ({ ...p }))
     .filter(post => post.id == passedPostId);
-
-  console.log("====================================");
-  console.log("POSTS  >> ", JSON.stringify(postsFiltered));
-  console.log("====================================");
-
-  console.log("====================================");
-  console.log("PROPS >> ", JSON.stringify());
-  console.log("====================================");
-
   const formatDate = date => new Date(date).toUTCString();
   return {
     post: postsFiltered[0],
