@@ -1,7 +1,7 @@
 import React from "react";
 import Category from "./Category";
 import { connect } from "react-redux";
-import { handleReceivePosts } from "../actions/posts";
+import { handleReceivePosts } from "../../actions/posts";
 
 class CategoryList extends React.Component {
   displayAllPosts = () => {
@@ -39,10 +39,6 @@ class CategoryList extends React.Component {
 
 function mapStateToProps(state) {
   const { categories } = state;
-  console.log("====================================");
-  console.log("CATEGORIES");
-  console.log(JSON.stringify(categories));
-  console.log("====================================");
   return { categories };
 }
 

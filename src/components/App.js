@@ -2,12 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { handleInitialData } from '../actions/shared'
 import Navbar from './Navbar'
-import CategoryList from './CategoryList'
-import PostList from './PostList'
-import CreatePost from './CreatePost'
-import PostDetails from './PostDetails'
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
-import CreateComment from './CreateComment';
+import CategoryList from './category/CategoryList'
+import PostList from './post/PostList'
+import CreatePost from './post/CreatePost'
+import PostDetails from './post/PostDetails'
+import NotFound from './NotFound'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import CreateComment from './comment/CreateComment'
 
 class App extends React.Component {
   render () {
@@ -29,13 +30,14 @@ class App extends React.Component {
                   path='/posts/edit/:post_id'
                   component={CreatePost}
                 />
-                 <Route
+                <Route
                   exact
                   path='/edit-comment/:post_id/:comment_id'
                   component={CreateComment}
                 />
                 <Route exact path='/' component={PostList} />
-                <Redirect from='*' to='/' />
+                <Route path='/error-404' component={NotFound} />
+                <Route component={NotFound} />{' '}
               </Switch>
             </div>
             <div className='col-sm-3'>

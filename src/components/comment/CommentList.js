@@ -21,9 +21,6 @@ class CommentList extends React.Component {
 
 function mapStateToProps (state) {
   const { comments } = state
-  console.log('====================================')
-  console.log('Comment list >>', JSON.stringify(comments))
-  console.log('====================================')
   return { comments : Object.values(comments) }
 }
 

@@ -11,7 +11,7 @@ import {
   handleDownVotePosts,
   handleUpVotePosts,
   handleDeletePost,
-} from "../actions/posts";
+} from "../../actions/posts";
 
 class Post extends React.Component {
   handleUpVote = () => {
@@ -29,7 +29,6 @@ class Post extends React.Component {
       title: this.props.post.title,
       body: this.props.post.body,
       category: this.props.post.category,
-      
     });
   };
 

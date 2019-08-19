@@ -1,7 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { generateUID } from "../utils/util";
-import { handleCreateComment, handleUpdateComment } from "../actions/comments";
+import { generateUID } from "../../utils/util";
+import {
+  handleCreateComment,
+  handleUpdateComment,
+} from "../../actions/comments";
+import { _getPostDetails, _getCommentDetails } from "../../utils/api";
 import { withRouter } from "react-router-dom";
 
 const emptyComment = {
@@ -29,7 +33,7 @@ class CreateComment extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { dispatch, passedPostId } = this.props;
+    const { dispatch } = this.props;
     const now = new Date().getTime();
     const uuid = generateUID();
 
@@ -37,43 +41,42 @@ class CreateComment extends React.Component {
     const editedCommentId = this.props.match.params.comment_id;
 
     if (editedCommentId && editedPostId) {
-      // dispatch(handleUpdateComment(comment));
+      dispatch(
+        handleUpdateComment(editedPostId, editedCommentId, {
+          timestamp: now,
+          body: this.state.body,
+        })
+      );
     } else {
       const comment = {
         ...this.state,
         ...{
           id: uuid,
           timestamp: now,
-          parentId: passedPostId,
+          parentId: editedPostId,
         },
       };
       dispatch(handleCreateComment(comment));
     }
     console.log("====================================");
     console.log("PROPS>COMMENT", JSON.stringify(this.props));
-    console.log("passedPostId>", passedPostId);
+    console.log("passedPostId>", editedPostId);
     console.log("====================================");
     this.setState({ ...emptyComment });
-    this.props.history.push(`/posts/details/${passedPostId}`);
+    this.props.history.push(`/posts/details/${editedPostId}`);
   };
 
   componentDidMount() {
-    const editedPostId = this.props.match.params.post_id;
-    const editedCommentId = this.props.match.params.comment_id;
-
-
-    // this.setState({body}) 
-    console.log("passedprops>", editedCommentId, "<comment>", editedPostId);
-  }
-
-  componentWillReceiveProps(newProps) {
-    newProps.location.state && this.setState({ ...newProps.location.state });
+    const commentId = this.props.match.params.comment_id;
+    if (commentId) {
+      _getCommentDetails(commentId).then(rsp =>
+        this.setState({ body: rsp.body })
+      );
+    }
   }
 
   render() {
     const author = "Damian";
-    console.log("PROPS>COMMENT", JSON.stringify(this.props));
-
     return (
       <div className="card create-comment-card mt-1">
         <div className="card-body px-3 py-2">
@@ -107,10 +110,8 @@ class CreateComment extends React.Component {
   }
 }
 
-function mapStateToProps(state, props) {
-  const { passedPostId } = props;
-
+function mapStateToProps(state) {
   const comments = state;
-  return { passedPostId, comments };
+  return { comments };
 }
 export default connect(mapStateToProps)(withRouter(CreateComment));

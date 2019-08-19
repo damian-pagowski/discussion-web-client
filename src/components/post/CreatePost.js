@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { handleCreatePost, handleUpdatePost } from "../actions/posts";
-import { generateUID } from "../utils/util";
+import { handleCreatePost, handleUpdatePost } from "../../actions/posts";
+import { generateUID } from "../../utils/util";
 import { withRouter } from "react-router-dom";
+import { _getPostDetails } from "../../utils/api";
 
 const emptyPost = {
   id: "",
@@ -31,18 +32,17 @@ class CreatePost extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { dispatch } = this.props;
+    const { dispatch, postID } = this.props;
     const now = new Date().getTime();
     const uuid = generateUID();
 
-    if (this.props.location.state) {
-      const editedPost = {
+    if (postID) {
+      const postUpdate = {
         body: this.state.body,
         title: this.state.title,
       };
-
-      dispatch(handleUpdatePost(this.props.location.state.id, editedPost));
-      this.props.history.push(`posts/details/${this.props.location.state.id}`);
+      dispatch(handleUpdatePost(postID, postUpdate)).then( () =>
+      this.props.history.push(`/posts/details/${postID}`));
     } else {
       const newPost = {
         ...this.state,
@@ -57,12 +57,10 @@ class CreatePost extends React.Component {
   };
 
   componentDidMount() {
-    this.props.location.state &&
-      this.setState({ ...this.props.location.state });
-  }
-
-  componentWillReceiveProps(newProps) {
-    newProps.location.state && this.setState({ ...newProps.location.state });
+    const id = this.props.postID;
+    if (id) {
+      _getPostDetails(id).then(resp => this.setState({ ...resp }));
+    }
   }
 
   render() {

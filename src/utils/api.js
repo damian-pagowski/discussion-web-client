@@ -35,7 +35,7 @@ export function _createComment (data) {
     headers: headerPost,
     body: JSON.stringify(data)
   }
-  return fetch(`${baseUrl}/comments`, requestConfig)
+  return fetch(`${baseUrl}/comments`, requestConfig).then(res => res.json())
 }
 
 export function _voteOnComment (commentID, option) {
@@ -45,7 +45,7 @@ export function _voteOnComment (commentID, option) {
     body: JSON.stringify({ option: option })
   }
   return fetch(`${baseUrl}/comments/${commentID}`, requestConfig).then(res =>
-    res.json().then(r => console.log('VOTE ON COMMENT RESPONSE >> ', r))
+    res.json()
   )
 }
 
@@ -55,7 +55,7 @@ export function _getComment (commentID) {
     headers: defaultHeader
   }
   return fetch(`${baseUrl}/comments/${commentID}`, requestConfig).then(res =>
-    res.json().then(r => console.log('GET COMMENT RESPONSE >> ', r))
+    res.json()
   )
 }
 
@@ -66,7 +66,7 @@ export function _updateComment (commentID, body) {
     body: JSON.stringify(body)
   }
   return fetch(`${baseUrl}/comments/${commentID}`, requestConfig).then(res =>
-    res.json().then(r => console.log('UPDATE COMMENT RESPONSE >> ', r))
+    res.json()
   )
 }
 
@@ -102,7 +102,9 @@ export function _updatePost (postId, body) {
     headers: headerPost,
     body: JSON.stringify(body)
   }
-  return fetch(`${baseUrl}/posts/${postId}`, requestConfig)
+  return fetch(`${baseUrl}/posts/${postId}`, requestConfig).then(res =>
+    res.json()
+  )
 }
 
 export function _voteOnPost (postID, opt) {
@@ -112,7 +114,7 @@ export function _voteOnPost (postID, opt) {
     body: JSON.stringify({ option: opt })
   }
   return fetch(`${baseUrl}/posts/${postID}`, requestConfig).then(res =>
-    console.log('API RESPONSE >> ', res.json())
+    res.json()
   )
 }
 
@@ -132,5 +134,23 @@ export function _createPost (data) {
     headers: headerPost,
     body: JSON.stringify(data)
   }
-  return fetch(`${baseUrl}/posts`, requestConfig)
+  return fetch(`${baseUrl}/posts`, requestConfig).then(res => res.json())
+}
+
+export function _getPostDetails (id) {
+  const requestConfig = {
+    method: 'GET',
+    headers: defaultHeader
+  }
+  return fetch(`${baseUrl}/posts/${id}`, requestConfig).then(res => res.json())
+}
+
+export function _getCommentDetails (id) {
+  const requestConfig = {
+    method: 'GET',
+    headers: defaultHeader
+  }
+  return fetch(`${baseUrl}/comments/${id}`, requestConfig).then(res =>
+    res.json()
+  )
 }

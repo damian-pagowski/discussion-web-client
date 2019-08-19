@@ -8,7 +8,8 @@ import {
   handleDeleteComment,
   handleUpVoteComment,
   handleDownVoteComment,
-} from "../actions/comments";
+} from "../../actions/comments";
+import { withRouter } from "react-router-dom";
 
 class Comment extends React.Component {
   handleUpVote = () => {
@@ -20,7 +21,9 @@ class Comment extends React.Component {
   };
 
   handleEdit = () => {
-    console.log("EDIT");
+    this.props.history.push(
+      `/edit-comment/${this.props.comment.parentId}/${this.props.comment.id}`
+    );
   };
 
   handleDelete = () => {
@@ -28,9 +31,7 @@ class Comment extends React.Component {
   };
 
   render() {
-    const comment = Object.values(this.props.comments).filter(
-      comment => comment.id === this.props.commentId
-    )[0];
+    const comment = this.props.comment;
 
     const dateFormatted = new Date(comment.timestamp).toUTCString();
 
@@ -82,7 +83,10 @@ class Comment extends React.Component {
 function mapStateToProps(state, props) {
   const { comments } = state;
   const { commentId } = props;
-  return { commentId, comments };
+  const comment = Object.values(comments).filter(
+    comment => comment.id === commentId
+  )[0];
+  return { commentId, comments, comment };
 }
 
-export default connect(mapStateToProps)(Comment);
+export default connect(mapStateToProps)(withRouter(Comment));

@@ -112,7 +112,7 @@ export function handleUpdateComment (postID, commentID, comment) {
   return (dispatch, getState) => {
     dispatch(showLoading())
     return _updateComment(commentID, comment)
-      .then(() => dispatch(updateComment(postID, commentID, comment)))
+      // .then(() => dispatch(updateComment(postID, commentID, comment)))
       .then(() => dispatch(hideLoading()))
   }
 }

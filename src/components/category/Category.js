@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { handleReceivePostsByCategory } from "../actions/posts";
+import { handleReceivePostsByCategory } from "../../actions/posts";
 
 class Category extends React.Component {
   handleFilterByCategory = category => {
@@ -10,8 +10,6 @@ class Category extends React.Component {
   render() {
     const { categoryIndex, categories } = this.props;
     const category = categories[categoryIndex];
-    console.log(category);
-    console.log(JSON.stringify(this.props));
     return (
       <div className="category-list-item" onClick={() => this.handleFilterByCategory(category.path)}>
         {category.name}

@@ -8,7 +8,7 @@ import {
   handleDownVotePosts,
   handleUpVotePosts,
   handleDeletePost,
-} from "../actions/posts";
+} from "../../actions/posts";
 import { withRouter } from "react-router-dom";
 
 
