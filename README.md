@@ -1,22 +1,24 @@
-# Readable
-
-Sample react/redux reddit style app. 
+# Discussion
+Simple content rating and discussion application implemented with React and Redux.
+Web client requires backend application to run.
 
 ## Installation
 
 use npm package manager to install dependencies.
-Also, requires to configure and run 
-[server app](https://github.com/udacity/reactnd-project-readable-starter/tree/master/api-server)
-After installing server just navigate to project root dir and run:
-
+Server URL must be provided in .env file 
 
 ```bash
-npm install
+REACT_APP_SERVER
 ```
 
 ## Usage
 
-TODO
+```bash
+npm start
+```
+
+## Autor
+Damian Pagowski (d.pagowski@gmail.com)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
