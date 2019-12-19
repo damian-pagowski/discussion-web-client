@@ -172,12 +172,89 @@ body {
   cursor: pointer;
   text-transform: capitalize;
 }
-.logo{
+.logo {
   display: inline-block;
   margin: 0 0 0 0;
   padding-left: 50px;
 }
 
 .bg-color-header {
-background-color:  rgba(0,0,0,.03)
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* sidenav */
+
+
+#mySidenav {
+  width: 250px !important;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav p {
+  padding: 0 0 1rem 2rem;
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.sidenav .list-group-item {
+  padding: 0.2rem 2rem;
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: #fff;
+}
+#create-post-sidebar {
+  margin: 1rem 2rem;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+  text-decoration: none;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  text-decoration: none;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  color: #f1f1f1;
+}
+
+#menu-btn{
+  display: none;
+}
+
+
+/* media queries*/
+
+@media screen and (max-width: 600px) {
+  .card-list-container{
+      display: none;
+  }
+  #create-post-nav-btn{
+    display: none;
+  }
+  #menu-btn{
+    width: 32px;
+    height: 32px;
+    color: #fff ;
+    display: inline-block !important;
+  }
+  .navbar-brand .logo{
+    padding: 0 !important;
+  }
 }

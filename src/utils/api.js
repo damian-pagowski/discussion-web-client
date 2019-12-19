@@ -1,156 +1,143 @@
-export const baseUrl = 'http://localhost:3001'
+require("dotenv").config();
+
+const baseUrl = process.env.REACT_APP_SERVER;
 
 export const defaultHeader = new Headers({
-  Authorization: 'whatever'
-})
+  Authorization: "whatever",
+});
 
 export const headerPost = new Headers({
-  Authorization: 'whatever',
-  'Content-Type': 'application/json'
-})
+  "Content-Type": "application/json",
+});
 
-export function _getComments (postId) {
+export function _getComments(postId) {
   const requestConfig = {
-    method: 'GET',
-    headers: defaultHeader
-  }
+    method: "GET",
+    headers: defaultHeader,
+  };
   return fetch(`${baseUrl}/posts/${postId}/comments`, requestConfig).then(res =>
     res.json()
-  )
+  );
 }
 
-export function _deleteComment (commentID) {
+export function _deleteComment(commentID) {
   const requestConfig = {
-    method: 'DELETE',
-    headers: defaultHeader
-  }
+    method: "DELETE",
+    headers: defaultHeader,
+  };
   return fetch(`${baseUrl}/comments/${commentID}`, requestConfig).then(res =>
     res.json()
-  )
+  );
 }
 
-export function _createComment (data) {
+export function _createComment(data) {
   const requestConfig = {
-    method: 'POST',
+    method: "POST",
     headers: headerPost,
-    body: JSON.stringify(data)
-  }
-  return fetch(`${baseUrl}/comments`, requestConfig).then(res => res.json())
+    body: JSON.stringify(data),
+  };
+  return fetch(`${baseUrl}/comments`, requestConfig).then(res => res.json());
 }
 
-export function _voteOnComment (commentID, option) {
+export function _voteOnComment(commentID, option) {
   const requestConfig = {
-    method: 'POST',
+    method: "POST",
     headers: headerPost,
-    body: JSON.stringify({ option: option })
-  }
+    body: JSON.stringify({ option: option }),
+  };
   return fetch(`${baseUrl}/comments/${commentID}`, requestConfig).then(res =>
     res.json()
-  )
+  );
 }
 
-export function _getComment (commentID) {
+export function _getComment(commentID) {
   const requestConfig = {
-    method: 'GET',
-    headers: defaultHeader
-  }
+    method: "GET",
+    headers: defaultHeader,
+  };
   return fetch(`${baseUrl}/comments/${commentID}`, requestConfig).then(res =>
     res.json()
-  )
+  );
 }
 
-export function _updateComment (commentID, body) {
+export function _updateComment(commentID, body) {
   const requestConfig = {
-    method: 'PUT',
+    method: "PUT",
     headers: headerPost,
-    body: JSON.stringify(body)
-  }
+    body: JSON.stringify(body),
+  };
   return fetch(`${baseUrl}/comments/${commentID}`, requestConfig).then(res =>
     res.json()
-  )
+  );
 }
 
-export function _getCategories () {
-  const requestConfig = {
-    method: 'GET',
-    headers: defaultHeader
-  }
-  return fetch(`${baseUrl}/categories`, requestConfig).then(res => res.json())
+export function _getCategories() {
+  return fetch(`${baseUrl}/categories`).then(res => res.json());
 }
 
-export function _getPosts () {
-  const requestConfig = {
-    method: 'GET',
-    headers: defaultHeader
-  }
-  return fetch(`${baseUrl}/posts`, requestConfig).then(res => res.json())
+export function _getPosts() {
+  return fetch(`${baseUrl}/posts`).then(posts => posts.json());
 }
 
-export function _getPostsByCategory (category) {
-  const requestConfig = {
-    method: 'GET',
-    headers: defaultHeader
-  }
-  return fetch(`${baseUrl}/${category}/posts`, requestConfig).then(res =>
-    res.json()
-  )
+export function _getPostsByCategory(category) {
+  return fetch(`${baseUrl}/${category}/posts`).then(res => res.json());
 }
 
-export function _updatePost (postId, body) {
+export function _updatePost(postId, body) {
   const requestConfig = {
-    method: 'PUT',
+    method: "PUT",
     headers: headerPost,
-    body: JSON.stringify(body)
-  }
+    body: JSON.stringify(body),
+  };
   return fetch(`${baseUrl}/posts/${postId}`, requestConfig).then(res =>
     res.json()
-  )
+  );
 }
 
-export function _voteOnPost (postID, opt) {
+export function _voteOnPost(postID, opt) {
   const requestConfig = {
-    method: 'POST',
+    method: "POST",
     headers: headerPost,
-    body: JSON.stringify({ option: opt })
-  }
+    body: JSON.stringify({ option: opt }),
+  };
   return fetch(`${baseUrl}/posts/${postID}`, requestConfig).then(res =>
     res.json()
-  )
+  );
 }
 
-export function _deletePost (postID) {
+export function _deletePost(postID) {
   const requestConfig = {
-    method: 'DELETE',
-    headers: defaultHeader
-  }
+    method: "DELETE",
+    headers: defaultHeader,
+  };
   return fetch(`${baseUrl}/posts/${postID}`, requestConfig).then(res =>
     res.json()
-  )
+  );
 }
 
-export function _createPost (data) {
+export function _createPost(data) {
   const requestConfig = {
-    method: 'POST',
+    method: "POST",
     headers: headerPost,
-    body: JSON.stringify(data)
-  }
-  return fetch(`${baseUrl}/posts`, requestConfig).then(res => res.json())
+    body: JSON.stringify(data),
+  };
+  return fetch(`${baseUrl}/posts`, requestConfig).then(res => res.json());
 }
 
-export function _getPostDetails (id) {
+export function _getPostDetails(id) {
   const requestConfig = {
-    method: 'GET',
-    headers: defaultHeader
-  }
-  return fetch(`${baseUrl}/posts/${id}`, requestConfig).then(res => res.json())
+    method: "GET",
+    headers: defaultHeader,
+  };
+  return fetch(`${baseUrl}/posts/${id}`, requestConfig).then(res => res.json());
 }
 
-export function _getCommentDetails (id) {
+export function _getCommentDetails(id) {
   const requestConfig = {
-    method: 'GET',
-    headers: defaultHeader
-  }
+    method: "GET",
+    headers: defaultHeader,
+  };
   return fetch(`${baseUrl}/comments/${id}`, requestConfig).then(res =>
     res.json()
-  )
+  );
 }

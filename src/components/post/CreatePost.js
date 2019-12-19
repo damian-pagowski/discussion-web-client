@@ -42,8 +42,10 @@ class CreatePost extends React.Component {
         body: this.state.body,
         title: this.state.title,
       };
-      dispatch(handleUpdatePost(postID, postUpdate)).then(() =>
+      dispatch(handleUpdatePost(postID, postUpdate)).then(() => {
+        console.log("POST ID : " + postID)
         this.props.history.push(`/posts/details/${postID}`)
+      }
       );
     } else {
       const newPost = {
@@ -121,7 +123,7 @@ class CreatePost extends React.Component {
                         Select Category
                       </option>
                       {Object.values(categories).map((category, index) =>
-                        <option key={index} value={category.name}>
+                        <option key={index} value={category._id}>
                           {category.name.toUpperCase()}
                         </option>
                       )}

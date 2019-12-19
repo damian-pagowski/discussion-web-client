@@ -14,7 +14,7 @@ export function handleReceiveCategories () {
   return (dispatch, getState) => {
     dispatch(showLoading())
     return _getCategories()
-      .then(categories => dispatch(receiveCategories(categories['categories'])))
+      .then(categories => dispatch(receiveCategories(categories)))
       .then(() => dispatch(hideLoading()))
   }
 }

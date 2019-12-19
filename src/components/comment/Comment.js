@@ -12,17 +12,24 @@ import {
 import { withRouter } from "react-router-dom";
 
 class Comment extends React.Component {
+  state = {};
+  componentDidMount() {
+    this.setState({ ...this.props.comment });
+  }
+
   handleUpVote = () => {
     this.props.dispatch(handleUpVoteComment(this.props.commentId));
+    this.setState({ ...this.state, voteScore: this.state.voteScore + 1 });
   };
 
   handleDownVote = () => {
     this.props.dispatch(handleDownVoteComment(this.props.commentId));
+    this.setState({ ...this.state, voteScore: this.state.voteScore - 1 });
   };
 
   handleEdit = () => {
     this.props.history.push(
-      `/comment/edit/${this.props.comment.parentId}/${this.props.comment.id}`
+      `/comment/edit/${this.props.comment.parentId}/${this.props.comment._id}`
     );
   };
 
@@ -31,7 +38,7 @@ class Comment extends React.Component {
   };
 
   render() {
-    const comment = this.props.comment;
+    const comment = { ...this.state };
 
     const dateFormatted = new Date(comment.timestamp).toUTCString();
 
@@ -44,17 +51,14 @@ class Comment extends React.Component {
             </small>
 
             <small className="text-muted">
-              {" "}Commented by {comment.author || "Unknown"} on{" "}
+              {" "}
+              Commented by {comment.author || "Unknown"} on{" "}
             </small>
 
-            <small className="text-muted">
-              {dateFormatted}
-            </small>
+            <small className="text-muted">{dateFormatted}</small>
           </div>
           <div className="card-body">
-            <p className="card-text">
-              {comment.body}
-            </p>
+            <p className="card-text">{comment.body}</p>
             <div className="custom-card-footer text-muted pull-to-right">
               <div className="my-badge">
                 <span className="icon" onClick={this.handleEdit}>
@@ -84,7 +88,7 @@ function mapStateToProps(state, props) {
   const { comments } = state;
   const { commentId } = props;
   const comment = Object.values(comments).filter(
-    comment => comment.id === commentId
+    comment => comment._id === commentId
   )[0];
   return { commentId, comments, comment };
 }

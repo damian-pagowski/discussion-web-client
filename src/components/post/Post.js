@@ -15,19 +15,19 @@ import {
 
 class Post extends React.Component {
   handleUpVote = () => {
-    this.props.dispatch(handleUpVotePosts(this.props.post.id));
+    this.props.dispatch(handleUpVotePosts(this.props.post._id));
   };
 
   handleDownVote = () => {
-    this.props.dispatch(handleDownVotePosts(this.props.post.id));
+    this.props.dispatch(handleDownVotePosts(this.props.post._id));
   };
 
   handleEdit = () => {
-    this.props.history.push(`/posts/edit/${this.props.post.id}`);
+    this.props.history.push(`/posts/edit/${this.props.post._id}`);
   };
 
   handleDelete = () => {
-    this.props.dispatch(handleDeletePost(this.props.post.id));
+    this.props.dispatch(handleDeletePost(this.props.post._id));
   };
 
   render() {
@@ -36,7 +36,7 @@ class Post extends React.Component {
       <div className="post-container">
         <div className="card">
           <div className="card-header">
-            <span className="category-name">{post.category}</span>
+            <span className="category-name">{post.category ? post.category.name : "Unknown Category"}</span>
             Posted by
             <span className="author-name">{post.author}</span>
             on
@@ -48,7 +48,7 @@ class Post extends React.Component {
             <h5 className="card-title">
               <Link
                 to={{
-                  pathname: `/posts/details/${this.props.post.id}`,
+                  pathname: `/posts/details/${this.props.post._id}`,
                 }}
               >
                 {post.title}
@@ -86,7 +86,8 @@ class Post extends React.Component {
 function mapStateToProps(state, props) {
   const { posts } = state;
   const { passedPostId } = props;
-  const post = Object.values(posts).filter(post => post.id == passedPostId)[0];
+  const post = Object.values(posts).filter(post => post._id == passedPostId)[0];
+  console.log("POST IN PROPS: " + JSON.stringify(post))
   const formatDate = date => new Date(date).toUTCString();
   return {
     post,

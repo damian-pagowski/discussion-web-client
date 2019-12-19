@@ -13,32 +13,36 @@ import { withRouter } from "react-router-dom";
 
 class PostReadOnly extends React.Component {
   handleUpVote = () => {
-    this.props.dispatch(handleUpVotePosts(this.props.post.id));
+    this.props.dispatch(handleUpVotePosts(this.props.post._id));
   };
 
   handleDownVote = () => {
-    this.props.dispatch(handleDownVotePosts(this.props.post.id));
+    this.props.dispatch(handleDownVotePosts(this.props.post._id));
   };
 
   handleEdit = () => {
     console.log("EDIT");
-    this.props.history.push(`/posts/edit/${this.props.post.id}`, {
-      id: this.props.post.id,
+    this.props.history.push(`/posts/edit/${this.props.post._id}`, {
+      id: this.props.post._id,
       title: this.props.post.title,
       body: this.props.post.body,
     });
   };
 
   handleDelete = () => {
-    this.props.dispatch(handleDeletePost(this.props.post.id));
+    this.props.dispatch(handleDeletePost(this.props.post._id));
     this.props.history.push("/");
   };
 
-  componentDidMount() {
-    console.log("dupa", JSON.stringify(this.props));
-  }
+
   render() {
-    const post = this.props.post || {};
+    
+    const postsFiltered = Object.values(this.props.posts)
+    .map(p => ({ ...p }))
+    .filter(post => post._id == this.props.passedPostId);
+    
+    const post = postsFiltered.length > 0 ?  postsFiltered[0] : {};
+
     return (
       <div className="post-container">
         <div className="card">
@@ -81,16 +85,17 @@ class PostReadOnly extends React.Component {
   }
 }
 function mapStateToProps(state, props) {
+  console.log("state & props: ")
+  console.log(JSON.stringify(state))
+  console.log(JSON.stringify(props))
   const { posts } = state;
   const { passedPostId } = props;
-  const postsFiltered = Object.values(posts)
-    .map(p => ({ ...p }))
-    .filter(post => post.id == passedPostId);
   const formatDate = date => new Date(date).toUTCString();
+
   return {
-    post: postsFiltered[0],
     formatDate,
     passedPostId,
+    posts
   };
 }
 

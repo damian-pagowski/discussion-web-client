@@ -29,7 +29,7 @@ export default function comments (state = {}, action) {
         ...state
       }
       Object.keys(copyOfState).forEach(function (key) {
-        if (action.commentID == copyOfState[key].id) {
+        if (action.commentID == copyOfState[key]._id) {
           console.log(
             'FROM REDUCER - UP_VOTE_COMMENT: ',
             copyOfState[key].voteScore
@@ -44,7 +44,7 @@ export default function comments (state = {}, action) {
         ...state
       }
       Object.keys(copyOfStateDownVote).forEach(function (key) {
-        if (action.commentID === copyOfStateDownVote[key].id) {
+        if (action.commentID === copyOfStateDownVote[key]._id) {
           console.log(
             'FROM REDUCER - UP_VOTE_COMMENT: ',
             copyOfStateDownVote[key].voteScore
@@ -60,7 +60,7 @@ export default function comments (state = {}, action) {
         ...state
       }
       Object.keys(copyOfStateDelete).forEach(function (key) {
-        if (action.commentID == copyOfStateDelete[key].id) {
+        if (action.commentID == copyOfStateDelete[key]._id) {
           delete copyOfStateDelete[key]
         }
       })
@@ -71,7 +71,7 @@ export default function comments (state = {}, action) {
         ...state
       }
       Object.keys(copyOfStateUpdate).forEach(function (key) {
-        if (action.commentID == copyOfStateUpdate[key].id) {
+        if (action.commentID == copyOfStateUpdate[key]._id) {
           copyOfStateUpdate[key].body = action.comment.body
           copyOfStateUpdate[key].timestamp = action.comment.timestamp
         }

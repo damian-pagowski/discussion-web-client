@@ -12,10 +12,6 @@ class PostDetails extends React.Component {
 
   componentDidMount = () => {
     this.props.dispatch(handleReceiveComments(this.props.id));
-    const id = this.props.id || this.props.match.params.post_id;
-    _getPostDetails(id).then(r =>
-      this.setState({ redirect: r.hasOwnProperty("error") })
-    );
   };
 
   render() {

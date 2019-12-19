@@ -8,13 +8,22 @@ import PostDetails from './post/PostDetails'
 import NotFound from './NotFound'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import CreateComment from './comment/CreateComment'
+import Sidebar from './Sidebar'
 
 class App extends React.Component {
+  state = {
+    showSidebar : false
+  }
+
+  toggleSidebar = () => {
+    this.setState({ showSidebar: !this.state.showSidebar})
+  }
   render () {
     return (
       <BrowserRouter>
-        <Navbar />
+        <Navbar toggleSidebar={this.toggleSidebar}/>
         <div className='container'>
+          { this.state.showSidebar && <Sidebar toggleSidebar={this.toggleSidebar}/>}
           <div className='row'>
             <div className='col-sm-9'>
               <Switch>
